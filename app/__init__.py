@@ -1,6 +1,6 @@
 import os
 from collections import defaultdict
-from flask import Flask
+from flask import Flask, render_template
 import requests
 from datetime import datetime, date
 from bs4 import BeautifulSoup
@@ -50,7 +50,7 @@ def create_app(test_config=None):
 
         res.sort(key = lambda x: datetime.strptime(x[0], "%d/%m/%Y"))
 
-        return res
+        return render_template('index.html')
 
     # a simple page that says hello
     @app.route('/hello')

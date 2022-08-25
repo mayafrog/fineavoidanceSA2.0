@@ -2,7 +2,7 @@ import os
 from collections import defaultdict
 from flask import Flask
 import requests
-from datetime import date
+from datetime import datetime, date
 from bs4 import BeautifulSoup
 import re
 
@@ -31,23 +31,27 @@ def create_app(test_config=None):
     # default page
     @app.route('/')
     def default():
-        today = (date.today().strftime("%d/%m/%Y"))
-
         URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, 'html.parser')
         
-        big_list = soup.find_all("ul", {"class": re.compile(r"^showlist")})
-        locations = soup.findAll("li", {"class": "showlist"})
+        ul = soup.find_all("ul", {"class": re.compile(r"^showlist")})
+        li = soup.findAll("li", {"class": "showlist"})
 
         hashmap = defaultdict(set)
 
-        # print(big_list)
-        for ul in locations:
-            if ul.get('data-value'):
-                hashmap[ul.get('data-value')].add(ul.text)
+        for el in li:
+            if el.get('data-value'):
+                hashmap[el.get('data-value')].add(el.text)
 
-        return [today, list(hashmap[today])]
+        res = []
+
+        for day in hashmap:
+            res.append([day, list(hashmap[day])])
+
+        res.sort(key = lambda x: datetime.strptime(x[0], "%d/%m/%Y"))
+
+        return res
 
     # a simple page that says hello
     @app.route('/hello')

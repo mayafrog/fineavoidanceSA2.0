@@ -1,6 +1,11 @@
 import os
-
+from collections import defaultdict
 from flask import Flask
+import requests
+from datetime import date
+from bs4 import BeautifulSoup
+import re
+
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,7 +31,23 @@ def create_app(test_config=None):
     # default page
     @app.route('/')
     def default():
-        return 'MAIN PAGE!'
+        today = (date.today().strftime("%d/%m/%Y"))
+
+        URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
+        page = requests.get(URL)
+        soup = BeautifulSoup(page.content, 'html.parser')
+        
+        big_list = soup.find_all("ul", {"class": re.compile(r"^showlist")})
+        locations = soup.findAll("li", {"class": "showlist"})
+
+        hashmap = defaultdict(set)
+
+        # print(big_list)
+        for ul in locations:
+            if ul.get('data-value'):
+                hashmap[ul.get('data-value')].add(ul.text)
+
+        return [today, list(hashmap[today])]
 
     # a simple page that says hello
     @app.route('/hello')

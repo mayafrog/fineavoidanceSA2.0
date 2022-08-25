@@ -35,12 +35,11 @@ def create_app(test_config=None):
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, 'html.parser')
         
-        ul = soup.find_all("ul", {"class": re.compile(r"^showlist")})
-        li = soup.findAll("li", {"class": "showlist"})
+        elements = soup.findAll("li", {"class": "showlist"})
 
         hashmap = defaultdict(set)
 
-        for el in li:
+        for el in elements:
             if el.get('data-value'):
                 hashmap[el.get('data-value')].add(el.text)
 

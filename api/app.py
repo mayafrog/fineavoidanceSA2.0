@@ -33,8 +33,8 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # default page
-    @app.route('/')
+    # route to return list of (dates : list of cameras)
+    @app.route('/cameras')
     def default():
         URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
         page = requests.get(URL)

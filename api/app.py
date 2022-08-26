@@ -3,6 +3,7 @@ from collections import defaultdict
 from flask import Flask, render_template
 import requests
 from datetime import datetime, date
+import time
 from bs4 import BeautifulSoup
 
 
@@ -51,15 +52,15 @@ def create_app(test_config=None):
 
         for day in hashmap:
             # res.append([day, list(hashmap[day])])
-            res.append(Day(day, list(hashmap[day])))
+            res.append([day, list(hashmap[day])])
 
-        res.sort(key=lambda x: datetime.strptime(x.date, "%d/%m/%Y"))
+        res.sort(key=lambda x: datetime.strptime(x[0], "%d/%m/%Y"))
 
-        return render_template('index.html', results=res)
+        return {'results': res}
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    # test route to ensure React frontend can communicate with Flask backend
+    @app.route('/time')
+    def get_current_time():
+        return {'time': time.time()}
 
     return app

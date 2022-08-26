@@ -4,7 +4,12 @@ from flask import Flask, render_template
 import requests
 from datetime import datetime, date
 from bs4 import BeautifulSoup
-import re
+
+
+class Day:
+    def __init__(self, date, cameras):
+        self.date = date
+        self.cameras = cameras
 
 
 def create_app(test_config=None):
@@ -12,7 +17,6 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
     if test_config is None:
@@ -34,7 +38,7 @@ def create_app(test_config=None):
         URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, 'html.parser')
-        
+
         elements = soup.findAll("li", {"class": "showlist"})
 
         hashmap = defaultdict(set)
@@ -46,11 +50,12 @@ def create_app(test_config=None):
         res = []
 
         for day in hashmap:
-            res.append([day, list(hashmap[day])])
+            # res.append([day, list(hashmap[day])])
+            res.append(Day(day, list(hashmap[day])))
 
-        res.sort(key = lambda x: datetime.strptime(x[0], "%d/%m/%Y"))
+        res.sort(key=lambda x: datetime.strptime(x.date, "%d/%m/%Y"))
 
-        return render_template('index.html')
+        return render_template('index.html', results=res)
 
     # a simple page that says hello
     @app.route('/hello')

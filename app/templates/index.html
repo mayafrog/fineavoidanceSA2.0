@@ -7,7 +7,12 @@
 </head>
 
 <body>
-    <h1>Hello World!</h1>
+    {% for day in results %}
+    <h1>{{ day.date }}</h1>
+    {% for d in day.cameras %}
+    <p>{{ d }}</p>
+    {% endfor %}
+    {% endfor %}
 </body>
 
 </html>

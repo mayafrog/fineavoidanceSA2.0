@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-        ... no changes in this part ...
+      <img src={logo} className="App-logo" alt="logo" />
 
         <p>The current time is {currentTime}.</p>
       </header>

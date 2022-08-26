@@ -10,7 +10,9 @@
     {% for day in results %}
     <h1>{{ day.date }}</h1>
     {% for d in day.cameras %}
-    <p>{{ d }}</p>
+    <ul>
+        <li>{{ d }}</li>
+    </ul>
     {% endfor %}
     {% endfor %}
 </body>

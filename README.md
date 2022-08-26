@@ -5,6 +5,13 @@ Planned:
 - Historical data and visualisations
 - Alerts if cameras are on a user's predefined route (e.g. daily drive from home to work)
 
+# How to Run
+
+### `yarn start`
+Runs the React frontend
+### `yarn start-api`
+Runs the Flask backend
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -1,5 +1,5 @@
 # fineavoidanceSA2.0
-WIP Remake of fineavoidanceSA1.0.
+WIP webapp remake of the original fineavoidanceSA
 
 Planned:
 - Historical data and visualisations

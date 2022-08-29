@@ -77,11 +77,6 @@ def create_app(test_config=None):
         # return as JSON array
         return jsonify(res)
 
-    # test route to ensure React frontend can communicate with Flask backend
-    @app.route('/time', methods=['GET'])
-    def get_current_time():
-        return {'time': time.time()}
-
     # database routes
     @app.route('/all-cameras', methods=['GET'])
     def get_all_cameras():

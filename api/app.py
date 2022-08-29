@@ -9,6 +9,7 @@ from firebase_admin import credentials, firestore, initialize_app
 
 MAPS_API_KEY = os.getenv('MAPS_API_KEY')
 
+
 def scrape():
     URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
     page = requests.get(URL)
@@ -46,7 +47,8 @@ def geocode(address):
     try:
         params = {'address': address, 'key': MAPS_API_KEY}
 
-        response = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=params)
+        response = requests.get(
+            "https://maps.googleapis.com/maps/api/geocode/json", params=params)
 
         data = response.json()['results'][0]['geometry']['location']
         lat = data['lat']
@@ -121,7 +123,24 @@ def create_app(test_config=None):
 
     @app.route('/all-cameras', methods=['POST', 'PUT'])
     def upsert_all_cameras():
-        res = scrape()
+        scraped = scrape()
+
+        res = []
+
+        for i, val_i in enumerate(scraped):
+            date = (val_i['date'])
+            obj = {"date": date, "cameras": []}
+            for j, val_j in enumerate(val_i['cameras']):
+                location = val_j
+                geoinfo = geocode(location)
+                mini_obj = {
+                    "location": location,
+                    "long": geoinfo[0],
+                    "lat": geoinfo[1]
+                }
+                print(mini_obj)
+                obj["cameras"].append(mini_obj)
+            res.append(obj)
 
         try:
             ref = db.collection('cameras')

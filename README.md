@@ -1,5 +1,9 @@
 # fineavoidanceSA2.0
-WIP webapp remake of the original fineavoidanceSA
+Webapp remake of the original FineAvoidanceSA.
+Tech stack comprising of:
+- React
+- Flask
+- Firebase Firestore
 
 Planned:
 - Historical data and visualisations

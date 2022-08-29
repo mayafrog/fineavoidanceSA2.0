@@ -1,18 +1,23 @@
 import os
 from collections import defaultdict
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import requests
 from datetime import datetime, date
 import time
 from bs4 import BeautifulSoup
-
+from firebase_admin import credentials, firestore, initialize_app
 
 def create_app(test_config=None):
-    # create and configure the app
+    # Initialise Flask app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
+
+    # Initialise Firestore DB
+    cred = credentials.Certificate('key.json')
+    default_app = initialize_app(cred)
+    db = firestore.client()
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -69,5 +74,21 @@ def create_app(test_config=None):
     @app.route('/time')
     def get_current_time():
         return {'time': time.time()}
+
+    # database test route to ensure Flask backend can communicate with Firestore database
+    @app.route('/test-db')
+    def get_from_db():
+        try:
+            # Check if ID was passed to URL query
+            todo_id = request.args.get('id')
+            ref = db.collection('cameras')
+            if todo_id:
+                todo = ref.document(todo_id).get()
+                return jsonify(todo.to_dict()), 200
+            else:
+                all_todos = [doc.to_dict() for doc in ref.stream()]
+                return jsonify(all_todos), 200
+        except Exception as e:
+            return f"An Error Occurred: {e}"
 
     return app

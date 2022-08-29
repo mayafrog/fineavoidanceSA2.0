@@ -3,7 +3,7 @@ Webapp remake of the original FineAvoidanceSA.
 Tech stack comprising of:
 - React
 - Flask
-- Firebase Firestore
+- Cloud Firestore
 
 Planned:
 - Historical data and visualisations

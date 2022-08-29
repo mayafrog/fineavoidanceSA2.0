@@ -1,4 +1,3 @@
-import json
 import os
 from collections import defaultdict
 from flask import Flask, jsonify

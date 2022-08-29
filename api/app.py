@@ -1,16 +1,11 @@
+import json
 import os
 from collections import defaultdict
-from flask import Flask, render_template
+from flask import Flask, jsonify
 import requests
 from datetime import datetime, date
 import time
 from bs4 import BeautifulSoup
-
-
-class Day:
-    def __init__(self, date, cameras):
-        self.date = date
-        self.cameras = cameras
 
 
 def create_app(test_config=None):
@@ -42,21 +37,34 @@ def create_app(test_config=None):
 
         elements = soup.findAll("li", {"class": "showlist"})
 
+        # get the list of cameras for each date, using a set to remove duplicates
         hashmap = defaultdict(set)
 
         for el in elements:
-            if el.get('data-value'):
-                hashmap[el.get('data-value')].add(el.text)
+            date = el.get('data-value')
+            location = el.text
 
+            if not date:
+                continue
+
+            hashmap[date].add(location)
+
+        # format result array, which will be sent as a JSON array
         res = []
 
-        for day in hashmap:
-            # res.append([day, list(hashmap[day])])
-            res.append([day, list(hashmap[day])])
+        for date in hashmap:
+            obj = {
+                "date": date,
+                "cameras": list(hashmap[date])
+            }
 
-        res.sort(key=lambda x: datetime.strptime(x[0], "%d/%m/%Y"))
+            res.append(obj)
 
-        return {'results': res}
+        # sort by ascending date
+        res.sort(key=lambda x: datetime.strptime(x.get("date"), "%d/%m/%Y"))
+
+        # return as JSON array
+        return jsonify(res)
 
     # test route to ensure React frontend can communicate with Flask backend
     @app.route('/time')

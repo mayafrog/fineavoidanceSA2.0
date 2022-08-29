@@ -102,4 +102,55 @@ def create_app(test_config=None):
         except Exception as e:
             return f"An Error Occurred: {e}"
 
+    @app.route('/all-cameras', methods=['POST', 'PUT'])
+    def upsert_all_cameras():
+        URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
+        page = requests.get(URL)
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        elements = soup.findAll("li", {"class": "showlist"})
+
+        # get the list of cameras for each date, using a set to remove duplicates
+        hashmap = defaultdict(set)
+
+        for el in elements:
+            date = el.get('data-value')
+            location = el.text
+
+            if not date:
+                continue
+
+            hashmap[date].add(location)
+
+        # format result array, which will be sent as a JSON array
+        res = []
+
+        for date in hashmap:
+            obj = {
+                "date": date,
+                "cameras": list(hashmap[date])
+            }
+
+            res.append(obj)
+
+        try:
+            ref = db.collection('cameras')
+
+            already_stored = set()
+
+            for each in ref.get():
+                already_stored.add(each.get('date'))
+
+            print(already_stored)
+
+            for each in res:
+                if each['date'] in already_stored:
+                    continue
+                ref.add(each)
+
+            return jsonify({"success": True}), 200
+
+        except Exception as e:
+            return f"An Error Occurred: {e}"
+
     return app

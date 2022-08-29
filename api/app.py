@@ -29,7 +29,7 @@ def create_app(test_config=None):
 
     # route to return list of (dates : list of cameras)
     @app.route('/cameras')
-    def default():
+    def get_cameras():
         URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, 'html.parser')

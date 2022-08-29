@@ -7,6 +7,7 @@ import time
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, initialize_app
 
+MAPS_API_KEY = os.getenv('MAPS_API_KEY')
 
 def scrape():
     URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
@@ -39,6 +40,21 @@ def scrape():
         res.append(obj)
 
     return res
+
+
+def geocode(address):
+    try:
+        params = {'address': address, 'key': MAPS_API_KEY}
+
+        response = requests.get("https://maps.googleapis.com/maps/api/geocode/json", params=params)
+
+        data = response.json()['results'][0]['geometry']['location']
+        lat = data['lat']
+        long = data['lng']
+        return [lat, long]
+
+    except Exception as e:
+        return f"An Error Occurred: {e}"
 
 
 def create_app(test_config=None):

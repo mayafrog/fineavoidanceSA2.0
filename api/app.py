@@ -7,6 +7,7 @@ import time
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, initialize_app
 
+
 def create_app(test_config=None):
     # Initialise Flask app
     app = Flask(__name__, instance_relative_config=True)
@@ -33,7 +34,7 @@ def create_app(test_config=None):
         pass
 
     # route to return list of (dates : list of cameras)
-    @app.route('/cameras')
+    @app.route('/cameras', methods=['GET'])
     def get_cameras():
         URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
         page = requests.get(URL)
@@ -71,23 +72,33 @@ def create_app(test_config=None):
         return jsonify(res)
 
     # test route to ensure React frontend can communicate with Flask backend
-    @app.route('/time')
+    @app.route('/time', methods=['GET'])
     def get_current_time():
         return {'time': time.time()}
 
-    # database test route to ensure Flask backend can communicate with Firestore database
-    @app.route('/test-db')
-    def get_from_db():
+    # database routes
+    @app.route('/all-cameras', methods=['GET'])
+    def get_all_cameras():
         try:
-            # Check if ID was passed to URL query
-            todo_id = request.args.get('id')
             ref = db.collection('cameras')
-            if todo_id:
-                todo = ref.document(todo_id).get()
-                return jsonify(todo.to_dict()), 200
+            all_entries = [doc.to_dict() for doc in ref.stream()]
+            return jsonify(all_entries), 200
+        except Exception as e:
+            return f"An Error Occurred: {e}"
+
+    @app.route('/upsert-camera', methods=['POST', 'PUT'])
+    def upsert_camera():
+        try:
+            ref = db.collection('cameras')
+            for each in ref.get():
+                if each.get('date') == request.json['date']:
+                    ref.document(each.id).update(request.json)
+                    break
             else:
-                all_todos = [doc.to_dict() for doc in ref.stream()]
-                return jsonify(all_todos), 200
+                ref.add(request.json)
+
+            return jsonify({"success": True}), 200
+
         except Exception as e:
             return f"An Error Occurred: {e}"
 

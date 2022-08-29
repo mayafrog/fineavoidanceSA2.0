@@ -1,5 +1,10 @@
 # fineavoidanceSA2.0
-WIP webapp remake of the original fineavoidanceSA
+Work-in-progress  remake of the original fineavoidanceSA using web application technologies. Displays the locations of mobile speed cameras in South Australia on a map and as a list, and also stores this information into a database for future analytical use. Only uses publicly available data. 
+
+Tech stack comprising of:
+- React
+- Flask
+- Cloud Firestore
 
 Planned:
 - Historical data and visualisations

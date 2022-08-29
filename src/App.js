@@ -4,14 +4,14 @@ import './App.css';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
-  const [cameras, setCameras] = useState(0);
+  const [cameras, setCameras] = useState([]);
 
   useEffect(() => {
     fetch('/time').then(res => res.json()).then(data => {
       setCurrentTime(data.time);
     });
     fetch('/cameras').then(res => res.json()).then(data => {
-      console.log(data);
+      setCameras(data);
     });
   }, []);
 
@@ -22,6 +22,23 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
 
         <p>The current time is {currentTime}.</p>
+
+        {cameras.map((camera, index) => {
+          return (
+            <div key={index}>
+              <h1>{camera.date}</h1>
+
+              {camera.cameras.map(location => {
+                return (
+                  <li>{location}</li>
+                );
+              })}
+
+              <hr />
+            </div>
+          );
+        })}
+
       </header>
     </div>
   );

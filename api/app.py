@@ -8,6 +8,39 @@ from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, initialize_app
 
 
+def scrape():
+    URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
+    page = requests.get(URL)
+    soup = BeautifulSoup(page.content, 'html.parser')
+
+    elements = soup.findAll("li", {"class": "showlist"})
+
+    # get the list of cameras for each date, using a set to remove duplicates
+    hashmap = defaultdict(set)
+
+    for el in elements:
+        date = el.get('data-value')
+        location = el.text
+
+        if not date:
+            continue
+
+        hashmap[date].add(location)
+
+    # format result array, which will be sent as a JSON array
+    res = []
+
+    for date in hashmap:
+        obj = {
+            "date": date,
+            "cameras": list(hashmap[date])
+        }
+
+        res.append(obj)
+
+    return res
+
+
 def create_app(test_config=None):
     # Initialise Flask app
     app = Flask(__name__, instance_relative_config=True)
@@ -36,34 +69,7 @@ def create_app(test_config=None):
     # route to return list of (dates : list of cameras)
     @app.route('/cameras', methods=['GET'])
     def get_cameras():
-        URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
-        page = requests.get(URL)
-        soup = BeautifulSoup(page.content, 'html.parser')
-
-        elements = soup.findAll("li", {"class": "showlist"})
-
-        # get the list of cameras for each date, using a set to remove duplicates
-        hashmap = defaultdict(set)
-
-        for el in elements:
-            date = el.get('data-value')
-            location = el.text
-
-            if not date:
-                continue
-
-            hashmap[date].add(location)
-
-        # format result array, which will be sent as a JSON array
-        res = []
-
-        for date in hashmap:
-            obj = {
-                "date": date,
-                "cameras": list(hashmap[date])
-            }
-
-            res.append(obj)
+        res = scrape()
 
         # sort by ascending date
         res.sort(key=lambda x: datetime.strptime(x.get("date"), "%d/%m/%Y"))
@@ -104,34 +110,7 @@ def create_app(test_config=None):
 
     @app.route('/all-cameras', methods=['POST', 'PUT'])
     def upsert_all_cameras():
-        URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
-        page = requests.get(URL)
-        soup = BeautifulSoup(page.content, 'html.parser')
-
-        elements = soup.findAll("li", {"class": "showlist"})
-
-        # get the list of cameras for each date, using a set to remove duplicates
-        hashmap = defaultdict(set)
-
-        for el in elements:
-            date = el.get('data-value')
-            location = el.text
-
-            if not date:
-                continue
-
-            hashmap[date].add(location)
-
-        # format result array, which will be sent as a JSON array
-        res = []
-
-        for date in hashmap:
-            obj = {
-                "date": date,
-                "cameras": list(hashmap[date])
-            }
-
-            res.append(obj)
+        res = scrape()
 
         try:
             ref = db.collection('cameras')
@@ -140,8 +119,6 @@ def create_app(test_config=None):
 
             for each in ref.get():
                 already_stored.add(each.get('date'))
-
-            print(already_stored)
 
             for each in res:
                 if each['date'] in already_stored:

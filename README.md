@@ -1,5 +1,5 @@
 # fineavoidanceSA2.0
-Work-in-progress  remake of the original fineavoidanceSA using contemporary web technologies. Displays the locations of mobile speed cameras in South Australia on a map and as a list, and also stores this information into a database for future analytical use. Only uses publicly available data. 
+Full-stack work-in-progress remake of the original fineavoidanceSA using contemporary web technologies. Displays the locations of mobile speed cameras in South Australia on a map and as a list, and also stores this information into a database for future analytical use. Only uses publicly available data. 
 
 Tech stack comprising of:
 - React

@@ -105,6 +105,16 @@ def create_app(test_config=None):
         except Exception as e:
             return f"An Error Occurred: {e}"
 
+    @app.route('/cameras-by-date', methods=['GET'])
+    def get_cameras_by_date():
+        try:
+            ref = db.collection('cameras')
+            all_entries = [doc.to_dict() for doc in ref.where(
+                "date", "==", "25/08/2022").stream()]
+            return jsonify(all_entries), 200
+        except Exception as e:
+            return f"An Error Occurred: {e}"
+
     @app.route('/upsert-camera', methods=['POST', 'PUT'])
     def upsert_camera():
         try:

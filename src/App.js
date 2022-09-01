@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect
+} from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { useJsApiLoader, GoogleMap } from '@react-google-maps/api'
+import {
+  useJsApiLoader,
+  GoogleMap
+} from '@react-google-maps/api'
+
+const MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
 const containerStyle = {
   width: '60%',
@@ -22,9 +30,11 @@ function App() {
     });
   }, []);
 
-  const { isLoaded } = useJsApiLoader({
+  const {
+    isLoaded
+  } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: "{PLACEHOLDER}"
+    googleMapsApiKey: MAPS_API_KEY
   })
 
   const [map, setMap] = React.useState(null)
@@ -43,41 +53,71 @@ function App() {
     return
   }
 
-  return (
-    <div className="App">
-      <header className="App-header">
+  return ( <
+    div className = "App" >
+    <
+    header className = "App-header" >
 
-        <img src={logo} className="App-logo" alt="logo" />
+    <
+    img src = {
+      logo
+    }
+    className = "App-logo"
+    alt = "logo" / >
 
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          { /* Child components, such as markers, info windows, etc. */}
-          <></>
-        </GoogleMap>
+    <
+    GoogleMap mapContainerStyle = {
+      containerStyle
+    }
+    center = {
+      center
+    }
+    zoom = {
+      10
+    }
+    onLoad = {
+      onLoad
+    }
+    onUnmount = {
+      onUnmount
+    } >
+    {
+      /* Child components, such as markers, info windows, etc. */ } <
+    > < /> <
+    /GoogleMap>
 
-        {cameras.map((camera, index) => {
-          return (
-            <div key={index}>
-              <h1>{camera.date}</h1>
+    {
+      cameras.map((camera, index) => {
+        return ( <
+          div key = {
+            index
+          } >
+          <
+          h1 > {
+            camera.date
+          } < /h1>
 
-              {camera.cameras.map(location => {
-                return (
-                  <li>{location}</li>
-                );
-              })}
+          {
+            camera.cameras.map(location => {
+              return ( <
+                li > {
+                  location
+                } < /li>
+              );
+            })
+          }
 
-              <hr />
-            </div>
-          );
-        })}
+          <
+          hr / >
+          <
+          /div>
+        );
+      })
+    }
 
-      </header>
-    </div>
+    <
+    /header> <
+    /div>
   );
 }
 

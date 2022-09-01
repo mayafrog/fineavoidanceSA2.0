@@ -53,7 +53,7 @@ def geocode(address):
         data = response.json()['results'][0]['geometry']['location']
         lat = data['lat']
         long = data['lng']
-        return [lat, long]
+        return [long, lat]
 
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -84,7 +84,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # route to return list of (dates : list of cameras)
+    # route to scrape and return list of all cameras
     @app.route('/cameras', methods=['GET'])
     def get_cameras():
         res = scrape()
@@ -95,7 +95,7 @@ def create_app(test_config=None):
         # return as JSON array
         return jsonify(res)
 
-    # database routes
+    # route to return list of all cameras stored in database
     @app.route('/all-cameras', methods=['GET'])
     def get_all_cameras():
         try:
@@ -105,16 +105,19 @@ def create_app(test_config=None):
         except Exception as e:
             return f"An Error Occurred: {e}"
 
-    @app.route('/cameras-by-date', methods=['GET'])
+    # route to return list of cameras for today's date stored in database (ALT: GET FROM SCRAPER)
+    @app.route('/cameras-today', methods=['GET'])
     def get_cameras_by_date():
+        today = (date.today().strftime("%d/%m/%Y"))
         try:
             ref = db.collection('cameras')
             all_entries = [doc.to_dict() for doc in ref.where(
-                "date", "==", "25/08/2022").stream()]
+                "date", "==", today).stream()]
             return jsonify(all_entries), 200
         except Exception as e:
             return f"An Error Occurred: {e}"
 
+    # route to upsert information into database for a certain date
     @app.route('/upsert-camera', methods=['POST', 'PUT'])
     def upsert_camera():
         try:
@@ -131,6 +134,7 @@ def create_app(test_config=None):
         except Exception as e:
             return f"An Error Occurred: {e}"
 
+    # route to automatically upsert into database using scraper
     @app.route('/all-cameras', methods=['POST', 'PUT'])
     def upsert_all_cameras():
         scraped = scrape()
@@ -145,10 +149,10 @@ def create_app(test_config=None):
                 geoinfo = geocode(location)
                 mini_obj = {
                     "location": location,
-                    "long": geoinfo[0],
-                    "lat": geoinfo[1]
+                    "position": {"lng": geoinfo[0],
+                                 "lat": geoinfo[1]}
+
                 }
-                print(mini_obj)
                 obj["cameras"].append(mini_obj)
             res.append(obj)
 

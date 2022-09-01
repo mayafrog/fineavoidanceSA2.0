@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { useJsApiLoader, GoogleMap } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
 
 const MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
@@ -10,17 +10,28 @@ const containerStyle = {
   height: '1000px'
 };
 
+const options = {
+  gestureHandling: 'greedy'
+};
+
 const center = {
-  lat: -3.745,
-  lng: -38.523
+  lat: -34.921230,
+  lng: 138.599503
 };
 
 function App() {
   const [cameras, setCameras] = useState([]);
+  const [points, setPoints] = useState([]);
 
   useEffect(() => {
     fetch('/cameras').then(res => res.json()).then(data => {
       setCameras(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetch('/cameras-today').then(res => res.json()).then(data => {
+      setPoints(data);
     });
   }, []);
 
@@ -37,10 +48,6 @@ function App() {
     setMap(map)
   }, [])
 
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
-  }, [])
-
   if (!isLoaded) {
     return
   }
@@ -55,9 +62,15 @@ function App() {
           mapContainerStyle={containerStyle}
           center={center}
           zoom={10}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
+          options={options}
+          onLoad={map => setMap(map)}
         >
+          {points[0]?.cameras.map(({ position }) => (
+            <Marker
+              position={position}
+            >
+            </Marker>
+          ))}
         </GoogleMap>
 
         {cameras.map((camera, index) => {
@@ -77,7 +90,7 @@ function App() {
         })}
 
       </header>
-    </div>
+    </div >
   );
 }
 

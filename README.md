@@ -7,7 +7,7 @@ Tech stack comprising of:
 - Database: Cloud Firestore
 - Package Manager: Yarn
 
-Can currently:
+Current features:
 - Show list of planned mobile speed cameras that is currently being displayed by SAPOL
 - Display markers of mobile speed cameras for today's date
 

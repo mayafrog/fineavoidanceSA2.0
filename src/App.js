@@ -55,9 +55,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-
-        <img src={logo} className="App-logo" alt="logo" />
-
+        <h4> Nhan's FineAvoidanceSA2.0 </h4>
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
@@ -76,11 +74,11 @@ function App() {
         {cameras.map((camera, index) => {
           return (
             <div key={index}>
-              <h1>{camera.date}</h1>
+              <h6>{camera.date}</h6>
 
               {camera.cameras.map(location => {
                 return (
-                  <li>{location}</li>
+                  <li style={{fontSize:14}}>{location}</li>
                 );
               })}
 

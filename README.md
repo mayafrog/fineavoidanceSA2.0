@@ -2,9 +2,14 @@
 Full-stack work-in-progress remake of the original fineavoidanceSA using contemporary web technologies. Displays the locations of mobile speed cameras in South Australia on a map and as a list, and also stores this information into a database for future analytical use. Only uses publicly available data. 
 
 Tech stack comprising of:
-- React
-- Flask
-- Cloud Firestore
+- Frontend: React
+- Backend: Flask
+- Database: Cloud Firestore
+- Package Manager: Yarn
+
+Current features:
+- Show list of planned mobile speed cameras that is currently being displayed by SAPOL
+- Display markers of mobile speed cameras for today's date
 
 Planned:
 - Historical data and visualisations

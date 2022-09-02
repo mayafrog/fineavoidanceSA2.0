@@ -10,7 +10,8 @@ const containerStyle = {
 };
 
 const options = {
-  gestureHandling: 'greedy'
+  gestureHandling: 'greedy',
+  clickableIcons: false
 };
 
 const center = {

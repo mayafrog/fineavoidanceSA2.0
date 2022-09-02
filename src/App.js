@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
 
 const MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
@@ -48,6 +47,8 @@ function App() {
     setMap(map)
   }, [])
 
+  const [activeMarker, setActiveMarker] = useState(null);
+
   if (!isLoaded) {
     return
   }
@@ -62,23 +63,31 @@ function App() {
           zoom={10}
           options={options}
           onLoad={map => setMap(map)}
+          onClick={() => setActiveMarker(null)}
         >
-          {points[0]?.cameras.map(({ position }) => (
+          {points[0]?.cameras.map(({ position, location }, id) => (
             <Marker
+              key={id}
               position={position}
+              onClick={() => { setActiveMarker(id) }}
             >
+              {activeMarker && activeMarker === id ? (
+                <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                  <div style={{ color: "black" }}>{location}</div>
+                </InfoWindow>
+              ) : null}
             </Marker>
           ))}
         </GoogleMap>
 
-        {cameras.map((camera, index) => {
+        {cameras?.map((camera, index) => {
           return (
             <div key={index}>
               <h6>{camera.date}</h6>
 
-              {camera.cameras.map(location => {
+              {camera.cameras.map(street_name => {
                 return (
-                  <li style={{fontSize:14}}>{location}</li>
+                  <li style={{ fontSize: 14 }}>{street_name}</li>
                 );
               })}
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { useJsApiLoader, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
 
 const MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
 
@@ -73,9 +73,9 @@ function App() {
               onClick={() => { setActiveMarker(location) }}
             >
               {activeMarker && activeMarker === location ? (
-                <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+                <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
                   <div style={{ color: "black" }}>{location}</div>
-                </InfoWindow>
+                </InfoWindowF>
               ) : null}
             </Marker>
           ))}

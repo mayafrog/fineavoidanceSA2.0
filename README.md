@@ -4,7 +4,7 @@ Full-stack work-in-progress remake of the original fineavoidanceSA using contemp
 Tech stack comprising of:
 - Frontend: React
 - Backend: Flask
-- Database: Cloud Firestore
+- Database: Firebase - Cloud Firestore
 - Package Manager: Yarn
 
 Current features:

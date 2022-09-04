@@ -68,11 +68,11 @@ function App() {
         >
           {points[0]?.cameras.map(({ position, location }, id) => (
             <Marker
-              key={id}
+              key={location}
               position={position}
-              onClick={() => { setActiveMarker(id) }}
+              onClick={() => { setActiveMarker(location) }}
             >
-              {activeMarker && activeMarker === id ? (
+              {activeMarker && activeMarker === location ? (
                 <InfoWindow onCloseClick={() => setActiveMarker(null)}>
                   <div style={{ color: "black" }}>{location}</div>
                 </InfoWindow>
@@ -81,9 +81,9 @@ function App() {
           ))}
         </GoogleMap>
 
-        {cameras?.map((camera, index) => {
+        {cameras?.map((camera) => {
           return (
-            <div key={index}>
+            <div key={camera}>
               <h6>{camera.date}</h6>
 
               {camera.cameras.map(street_name => {

@@ -45,6 +45,8 @@ def scrape():
 
 def geocode(address):
     try:
+        address += ", SOUTH AUSTRALIA, AUSTRALIA"
+
         params = {'address': address, 'key': MAPS_API_KEY}
 
         response = requests.get(

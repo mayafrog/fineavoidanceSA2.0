@@ -22,23 +22,15 @@ def scrape():
 
     for el in elements:
         date = el.get('data-value')
-        location = el.text
+        address = el.text
 
         if not date:
             continue
 
-        hashmap[date].add(location)
+        hashmap[date].add(address)
 
     # format result array, which will be sent as a JSON array
-    res = []
-
-    for date in hashmap:
-        obj = {
-            "date": date,
-            "cameras": list(hashmap[date])
-        }
-
-        res.append(obj)
+    res = [{"date": date, "cameras": list(hashmap[date])} for date in hashmap]
 
     return res
 
@@ -47,15 +39,17 @@ def geocode(address):
     try:
         address += ", SOUTH AUSTRALIA, AUSTRALIA"
 
-        params = {'address': address, 'key': MAPS_API_KEY}
+        params = {'address': address +
+                  ", SOUTH AUSTRALIA, AUSTRALIA", 'key': MAPS_API_KEY}
 
         response = requests.get(
             "https://maps.googleapis.com/maps/api/geocode/json", params=params)
 
         data = response.json()['results'][0]['geometry']['location']
         lat = data['lat']
-        long = data['lng']
-        return [long, lat]
+        lng = data['lng']
+
+        return {"lng": lng, "lat": lat}
 
     except Exception as e:
         return f"An Error Occurred: {e}"
@@ -145,26 +139,26 @@ def create_app(test_config=None):
             scraped = scrape()
             res = []
 
-            for i, val_i in enumerate(scraped):
-                date = val_i['date']
+            for each in scraped:
+                date = each['date']
 
                 if date in already_stored:
                     continue
 
                 obj = {"date": date, "cameras": []}
-                for j, val_j in enumerate(val_i['cameras']):
-                    location = val_j
+                for location in each['cameras']:
                     geoinfo = geocode(location)
-                    mini_obj = {
+                    instance = {
                         "location": location,
-                        "position": {"lng": geoinfo[0],
-                                     "lat": geoinfo[1]}
+                        "position": {"lng": geoinfo['lng'],
+                                     "lat": geoinfo['lat']}
 
                     }
-                    obj["cameras"].append(mini_obj)
+                    obj["cameras"].append(instance)
 
                 res.append(obj)
 
+            # make transactional
             for each in res:
                 ref.add(each)
 

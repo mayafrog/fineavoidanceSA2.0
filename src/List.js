@@ -14,24 +14,22 @@ function List() {
 
     return (
         <div className="List">
-            <header className="List-header">
-                {cameras?.map((camera) => {
-                    return (
-                        <div key={camera}>
-                            <h6>{camera.date}</h6>
+            {cameras?.map((camera) => {
+                return (
+                    <div key={camera}>
+                        <h6>{camera.date}</h6>
 
-                            {camera?.cameras?.map(street_name => {
-                                return (
-                                    <li style={{ fontSize: 14 }}>{street_name}</li>
-                                );
-                            })}
+                        {camera?.cameras?.map(street_name => {
+                            return (
+                                <li style={{ fontSize: 14 }}>{street_name}</li>
+                            );
+                        })}
 
-                            <hr />
-                        </div>
-                    );
-                })
-                }
-            </header>
+                        <hr />
+                    </div>
+                );
+            })
+            }
         </div >
     );
 }

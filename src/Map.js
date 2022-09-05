@@ -2,11 +2,9 @@ import React, {
     useState,
     useEffect
 } from 'react';
-import { GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
 
 function Map() {
-
-
     const containerStyle = {
         width: '60%',
         height: '1000px'
@@ -40,33 +38,38 @@ function Map() {
 
     const [activeMarker, setActiveMarker] = useState(null);
 
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
+    })
+
+    if (!isLoaded) {
+        return <div>Loading...</div>
+    }
+
     return (
-        <div className="Map">
-            <header className="Map-header">
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={center}
-                    zoom={10}
-                    options={options}
-                    onLoad={map => setMap(map)}
-                    onClick={() => setActiveMarker(null)}
+        <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+            options={options}
+            onLoad={map => setMap(map)}
+            onClick={() => setActiveMarker(null)}
+        >
+            {points[0]?.cameras?.map(({ position, location }, id) => (
+                <Marker
+                    key={location}
+                    position={position}
+                    onClick={() => { setActiveMarker(location) }}
                 >
-                    {points[0]?.cameras?.map(({ position, location }, id) => (
-                        <Marker
-                            key={location}
-                            position={position}
-                            onClick={() => { setActiveMarker(location) }}
-                        >
-                            {activeMarker && activeMarker === location ? (
-                                <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                    <div style={{ color: "black" }}>{location}</div>
-                                </InfoWindowF>
-                            ) : null}
-                        </Marker>
-                    ))}
-                </GoogleMap>
-            </header>
-        </div >
+                    {activeMarker && activeMarker === location ? (
+                        <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
+                            <div style={{ color: "black" }}>{location}</div>
+                        </InfoWindowF>
+                    ) : null}
+                </Marker>
+            ))}
+        </GoogleMap>
     );
 }
 

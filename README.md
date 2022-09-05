@@ -8,11 +8,12 @@ Tech stack comprising of:
 - Package Manager: Yarn
 
 Current features:
-- Show list of planned mobile speed cameras that is currently being displayed by SAPOL
 - Display markers of mobile speed cameras for today's date
+- Show freshly scraped list of planned mobile speed cameras that is currently being displayed by SAPOL
+- Historical data can be viewed using API
 
 Planned:
-- Historical data and visualisations
+- Historical data and visualisations integrated into the site
 - Alerts if cameras are on a user's predefined route (e.g. daily drive from home to work)
 
 # How to Run

@@ -144,7 +144,7 @@ def create_app(test_config=None):
         res = []
 
         for i, val_i in enumerate(scraped):
-            date = (val_i['date'])
+            date = val_i['date']
             obj = {"date": date, "cameras": []}
             for j, val_j in enumerate(val_i['cameras']):
                 location = val_j
@@ -161,10 +161,7 @@ def create_app(test_config=None):
         try:
             ref = db.collection('cameras')
 
-            already_stored = set()
-
-            for each in ref.get():
-                already_stored.add(each.get('date'))
+            already_stored = set([each.get('date') for each in ref.get()])
 
             for each in res:
                 if each['date'] in already_stored:

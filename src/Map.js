@@ -2,26 +2,26 @@ import React, {
     useState,
     useEffect
 } from 'react';
-import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
-
-const MAPS_API_KEY = process.env.REACT_APP_MAPS_API_KEY;
-
-const containerStyle = {
-    width: '60%',
-    height: '1000px'
-};
-
-const options = {
-    gestureHandling: 'greedy',
-    clickableIcons: false
-};
-
-const center = {
-    lat: -34.921230,
-    lng: 138.599503
-};
+import { GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
 
 function Map() {
+
+
+    const containerStyle = {
+        width: '60%',
+        height: '1000px'
+    };
+
+    const options = {
+        gestureHandling: 'greedy',
+        clickableIcons: false
+    };
+
+    const center = {
+        lat: -34.921230,
+        lng: 138.599503
+    };
+
     const [points, setPoints] = useState([]);
 
     useEffect(() => {
@@ -29,11 +29,6 @@ function Map() {
             setPoints(data);
         });
     }, []);
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: MAPS_API_KEY
-    })
 
     const [map, setMap] = React.useState(null)
 
@@ -44,10 +39,6 @@ function Map() {
     // }, [])
 
     const [activeMarker, setActiveMarker] = useState(null);
-
-    if (!isLoaded) {
-        return <div>Loading...</div>
-    }
 
     return (
         <div className="Map">

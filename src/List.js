@@ -19,9 +19,9 @@ function List() {
                     <div key={camera}>
                         <h6>{camera.date}</h6>
 
-                        {camera?.cameras?.map(street_name => {
+                        {camera?.cameras?.map(location => {
                             return (
-                                <li style={{ fontSize: 14 }}>{street_name}</li>
+                                <li style={{ fontSize: 14 }}>{location}</li>
                             );
                         })}
 

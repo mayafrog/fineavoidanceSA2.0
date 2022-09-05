@@ -20,11 +20,11 @@ function Map() {
         lng: 138.599503
     };
 
-    const [points, setPoints] = useState([]);
+    const [markers, setMarkers] = useState([]);
 
     useEffect(() => {
         fetch('/cameras-today').then(res => res.json()).then(data => {
-            setPoints(data);
+            setMarkers(data);
         });
     }, []);
 
@@ -56,7 +56,7 @@ function Map() {
             onLoad={map => setMap(map)}
             onClick={() => setActiveMarker(null)}
         >
-            {points[0]?.cameras?.map(({ position, location }, id) => (
+            {markers[0]?.cameras?.map(({ position, location }, id) => (
                 <Marker
                     key={location}
                     position={position}

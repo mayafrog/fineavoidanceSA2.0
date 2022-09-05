@@ -139,33 +139,33 @@ def create_app(test_config=None):
     # route to automatically upsert into database using scraper
     @app.route('/all-cameras', methods=['POST', 'PUT'])
     def upsert_all_cameras():
-        scraped = scrape()
-
-        res = []
-
-        for i, val_i in enumerate(scraped):
-            date = val_i['date']
-            obj = {"date": date, "cameras": []}
-            for j, val_j in enumerate(val_i['cameras']):
-                location = val_j
-                geoinfo = geocode(location)
-                mini_obj = {
-                    "location": location,
-                    "position": {"lng": geoinfo[0],
-                                 "lat": geoinfo[1]}
-
-                }
-                obj["cameras"].append(mini_obj)
-            res.append(obj)
-
         try:
             ref = db.collection('cameras')
-
             already_stored = set([each.get('date') for each in ref.get()])
+            scraped = scrape()
+            res = []
+
+            for i, val_i in enumerate(scraped):
+                date = val_i['date']
+
+                if date in already_stored:
+                    continue
+
+                obj = {"date": date, "cameras": []}
+                for j, val_j in enumerate(val_i['cameras']):
+                    location = val_j
+                    geoinfo = geocode(location)
+                    mini_obj = {
+                        "location": location,
+                        "position": {"lng": geoinfo[0],
+                                     "lat": geoinfo[1]}
+
+                    }
+                    obj["cameras"].append(mini_obj)
+
+                res.append(obj)
 
             for each in res:
-                if each['date'] in already_stored:
-                    continue
                 ref.add(each)
 
             return jsonify({"success": True}), 200

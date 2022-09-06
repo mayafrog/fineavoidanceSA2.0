@@ -6,8 +6,8 @@ import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-ma
 
 function Map() {
     const containerStyle = {
-        width: '60%',
-        height: '1000px'
+        width: '80vw',
+        height: '80vh'
     };
 
     const options = {
@@ -28,15 +28,13 @@ function Map() {
         });
     }, []);
 
-    const [map, setMap] = React.useState(null)
-
-    // const onLoad = React.useCallback(function callback(map) {
-    //     const bounds = new window.google.maps.LatLngBounds(center);
-    //     map.fitBounds(bounds);
-    //     setMap(map)
-    // }, [])
-
     const [activeMarker, setActiveMarker] = useState(null);
+
+    // const handleOnLoad = (map) => {
+    //     const bounds = new window.google.maps.LatLngBounds();
+    //     markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+    //     map.fitBounds(bounds);
+    // };
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -47,22 +45,23 @@ function Map() {
         return <div>Loading...</div>
     }
 
+
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
+            options={options}
+            // onLoad={handleOnLoad}
             center={center}
             zoom={10}
-            options={options}
-            onLoad={map => setMap(map)}
             onClick={() => setActiveMarker(null)}
         >
-            {markers[0]?.cameras?.map(({ position, location }, id) => (
+            {markers[0]?.cameras?.map(({ location, position }) => (
                 <Marker
                     key={location}
                     position={position}
-                    onClick={() => { setActiveMarker(location) }}
+                    onClick={() => setActiveMarker(location)}
                 >
-                    {activeMarker && activeMarker === location ? (
+                    {activeMarker === location ? (
                         <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
                             <div style={{ color: "black" }}>{location}</div>
                         </InfoWindowF>

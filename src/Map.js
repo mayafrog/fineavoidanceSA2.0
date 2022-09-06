@@ -9,6 +9,11 @@ function Map() {
         width: '80vw',
         height: '80vh'
     };
+    
+    const center = {
+        lat: -34.921230,
+        lng: 138.599503
+    };
 
     const options = {
         gestureHandling: 'greedy',
@@ -26,9 +31,11 @@ function Map() {
     const [activeMarker, setActiveMarker] = useState(null);
 
     const handleOnLoad = (map) => {
-        const bounds = new window.google.maps.LatLngBounds();
-        markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
-        map.fitBounds(bounds);
+        // const bounds = new window.google.maps.LatLngBounds();
+        // markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+        // map.fitBounds(bounds);
+        map.setCenter(center);
+        map.setZoom(10);
     };
 
     const { isLoaded } = useJsApiLoader({

@@ -9,7 +9,7 @@ function Map() {
         width: '80vw',
         height: '80vh'
     };
-    
+
     const center = {
         lat: -34.921230,
         lng: 138.599503
@@ -22,6 +22,8 @@ function Map() {
 
     const [markers, setMarkers] = useState([]);
 
+    const [map, setMap] = useState(null);
+
     useEffect(() => {
         fetch('/cameras-today').then(res => res.json()).then(data => {
             setMarkers(data);
@@ -29,14 +31,6 @@ function Map() {
     }, []);
 
     const [activeMarker, setActiveMarker] = useState(null);
-
-    const handleOnLoad = (map) => {
-        // const bounds = new window.google.maps.LatLngBounds();
-        // markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
-        // map.fitBounds(bounds);
-        map.setCenter(center);
-        map.setZoom(10);
-    };
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -47,12 +41,15 @@ function Map() {
         return <div>Loading...</div>
     }
 
+    const bounds = new window.google.maps.LatLngBounds();
+    markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+    map?.fitBounds(bounds);
 
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
             options={options}
-            onLoad={handleOnLoad}
+            onLoad={(map) => setMap(map)}
             onClick={() => setActiveMarker(null)}
         >
             {markers[0]?.cameras?.map(({ location, position }) => (

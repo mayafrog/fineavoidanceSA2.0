@@ -15,11 +15,6 @@ function Map() {
         clickableIcons: false
     };
 
-    const center = {
-        lat: -34.921230,
-        lng: 138.599503
-    };
-
     const [markers, setMarkers] = useState([]);
 
     useEffect(() => {
@@ -30,11 +25,11 @@ function Map() {
 
     const [activeMarker, setActiveMarker] = useState(null);
 
-    // const handleOnLoad = (map) => {
-    //     const bounds = new window.google.maps.LatLngBounds();
-    //     markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
-    //     map.fitBounds(bounds);
-    // };
+    const handleOnLoad = (map) => {
+        const bounds = new window.google.maps.LatLngBounds();
+        markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+        map.fitBounds(bounds);
+    };
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -50,9 +45,7 @@ function Map() {
         <GoogleMap
             mapContainerStyle={containerStyle}
             options={options}
-            // onLoad={handleOnLoad}
-            center={center}
-            zoom={10}
+            onLoad={handleOnLoad}
             onClick={() => setActiveMarker(null)}
         >
             {markers[0]?.cameras?.map(({ location, position }) => (

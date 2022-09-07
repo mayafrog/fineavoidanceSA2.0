@@ -6,6 +6,7 @@ from datetime import datetime, date
 import time
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, initialize_app
+from flask_apscheduler import APScheduler
 
 
 def scrape():
@@ -54,18 +55,18 @@ def geocode(address):
 
 
 def create_app(test_config=None):
-    # Initialise Flask app
+    # initialise Flask app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
 
-    # Initialise Firestore DB
+    # initialise Firestore DB
     cred = credentials.Certificate('key.json')
     default_app = initialize_app(cred)
     db = firestore.client()
 
-    # Get MAPS_API_KEY from environment variable
+    # get MAPS_API_KEY from environment variable
     MAPS_API_KEY = os.getenv('MAPS_API_KEY')
 
     if test_config is None:
@@ -80,6 +81,11 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    # initialize scheduler
+    scheduler = APScheduler()
+    scheduler.init_app(app)
+    scheduler.start()
 
     # route to scrape and return list of all cameras
     @app.route('/cameras', methods=['GET'])
@@ -170,5 +176,11 @@ def create_app(test_config=None):
 
     # run once on startup
     upsert_all_cameras()
+
+    # set scheduler to run every 24 hours (starting from start time of the application)
+    @scheduler.task('interval', id='daily_update', days=1)
+    def daily_update():
+        upsert_all_cameras()
+        print("Finished daily update of cameras")
 
     return app

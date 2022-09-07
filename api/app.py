@@ -9,51 +9,6 @@ from firebase_admin import credentials, firestore, initialize_app
 from flask_apscheduler import APScheduler
 
 
-def scrape():
-    URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content, 'html.parser')
-
-    elements = soup.findAll("li", {"class": "showlist"})
-
-    # get the list of cameras for each date, using a set to remove duplicates
-    hashmap = defaultdict(set)
-
-    for el in elements:
-        date = el.get('data-value')
-        address = el.text
-
-        if not date:
-            continue
-
-        hashmap[date].add(address)
-
-    # format result array, which will be sent as a JSON array
-    res = [{"date": date, "cameras": list(hashmap[date])} for date in hashmap]
-
-    return res
-
-
-def geocode(address):
-    try:
-        address += ", SOUTH AUSTRALIA, AUSTRALIA"
-
-        params = {'address': address +
-                  ", SOUTH AUSTRALIA, AUSTRALIA", 'key': MAPS_API_KEY}
-
-        response = requests.get(
-            "https://maps.googleapis.com/maps/api/geocode/json", params=params)
-
-        data = response.json()['results'][0]['geometry']['location']
-        lat = data['lat']
-        lng = data['lng']
-
-        return {"lng": lng, "lat": lat}
-
-    except Exception as e:
-        return f"An Error Occurred: {e}"
-
-
 def create_app(test_config=None):
     # initialise Flask app
     app = Flask(__name__, instance_relative_config=True)
@@ -86,6 +41,50 @@ def create_app(test_config=None):
     scheduler = APScheduler()
     scheduler.init_app(app)
     scheduler.start()
+
+    def scrape():
+        URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
+        page = requests.get(URL)
+        soup = BeautifulSoup(page.content, 'html.parser')
+
+        elements = soup.findAll("li", {"class": "showlist"})
+
+        # get the list of cameras for each date, using a set to remove duplicates
+        hashmap = defaultdict(set)
+
+        for el in elements:
+            date = el.get('data-value')
+            address = el.text
+
+            if not date:
+                continue
+
+            hashmap[date].add(address)
+
+        # format result array, which will be sent as a JSON array
+        res = [{"date": date, "cameras": list(
+            hashmap[date])} for date in hashmap]
+
+        return res
+
+    def geocode(address):
+        try:
+            address += ", SOUTH AUSTRALIA, AUSTRALIA"
+
+            params = {'address': address +
+                      ", SOUTH AUSTRALIA, AUSTRALIA", 'key': MAPS_API_KEY}
+
+            response = requests.get(
+                "https://maps.googleapis.com/maps/api/geocode/json", params=params)
+
+            data = response.json()['results'][0]['geometry']['location']
+            lat = data['lat']
+            lng = data['lng']
+
+            return {"lng": lng, "lat": lat}
+
+        except Exception as e:
+            return f"An Error Occurred: {e}"
 
     # route to scrape and return list of all cameras
     @app.route('/cameras', methods=['GET'])

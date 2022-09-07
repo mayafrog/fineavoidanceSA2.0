@@ -7,8 +7,6 @@ import time
 from bs4 import BeautifulSoup
 from firebase_admin import credentials, firestore, initialize_app
 
-MAPS_API_KEY = os.getenv('MAPS_API_KEY')
-
 
 def scrape():
     URL = 'https://www.police.sa.gov.au/your-safety/road-safety/traffic-camera-locations'
@@ -66,6 +64,9 @@ def create_app(test_config=None):
     cred = credentials.Certificate('key.json')
     default_app = initialize_app(cred)
     db = firestore.client()
+
+    # Get MAPS_API_KEY from environment variable
+    MAPS_API_KEY = os.getenv('MAPS_API_KEY')
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

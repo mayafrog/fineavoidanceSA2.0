@@ -168,4 +168,7 @@ def create_app(test_config=None):
         except Exception as e:
             return f"An Error Occurred: {e}"
 
+    # run once on startup
+    upsert_all_cameras()
+
     return app

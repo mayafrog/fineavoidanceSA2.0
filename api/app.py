@@ -91,31 +91,9 @@ def create_app(test_config=None):
         # return as JSON array
         return jsonify(res)
 
-    # route to return list of all cameras stored in database
-    @app.route('/all-cameras', methods=['GET'])
-    def get_all_cameras():
-        try:
-            ref = db.collection('cameras')
-            all_entries = [doc.to_dict() for doc in ref.stream()]
-            return jsonify(all_entries), 200
-        except Exception as e:
-            return f"An Error Occurred: {e}"
-
-    # route to return list of cameras for today's date stored in database (ALT: GET FROM SCRAPER)
-    @app.route('/cameras-today', methods=['GET'])
-    def get_cameras_by_date():
-        today = (date.today().strftime("%d/%m/%Y"))
-        try:
-            ref = db.collection('cameras')
-            all_entries = [doc.to_dict() for doc in ref.where(
-                "date", "==", today).stream()]
-            return jsonify(all_entries), 200
-        except Exception as e:
-            return f"An Error Occurred: {e}"
-
     # route to upsert information into database for a certain date
-    @app.route('/upsert-camera', methods=['POST', 'PUT'])
-    def upsert_camera():
+    @app.route('/cameras', methods=['POST', 'PUT'])
+    def upsert_cameras():
         try:
             ref = db.collection('cameras')
             for each in ref.get():
@@ -127,6 +105,16 @@ def create_app(test_config=None):
 
             return jsonify({"success": True}), 200
 
+        except Exception as e:
+            return f"An Error Occurred: {e}"
+
+    # route to return list of all cameras stored in database
+    @app.route('/all-cameras', methods=['GET'])
+    def get_all_cameras():
+        try:
+            ref = db.collection('cameras')
+            all_entries = [doc.to_dict() for doc in ref.stream()]
+            return jsonify(all_entries), 200
         except Exception as e:
             return f"An Error Occurred: {e}"
 
@@ -164,6 +152,18 @@ def create_app(test_config=None):
 
             return jsonify({"success": True}), 200
 
+        except Exception as e:
+            return f"An Error Occurred: {e}"
+
+    # route to return list of cameras for today's date stored in database (ALT: GET FROM SCRAPER)
+    @app.route('/cameras-today', methods=['GET'])
+    def get_cameras_today():
+        today = (date.today().strftime("%d/%m/%Y"))
+        try:
+            ref = db.collection('cameras')
+            all_entries = [doc.to_dict() for doc in ref.where(
+                "date", "==", today).stream()]
+            return jsonify(all_entries), 200
         except Exception as e:
             return f"An Error Occurred: {e}"
 

@@ -20,7 +20,7 @@ function List() {
             {cameras?.map((camera) => {
                 return (
                     <div key={camera}>
-                        <h6>{camera.date === today ? `${camera.date} (TODAY)` : camera.date}</h6>
+                        {camera.date === today ? <h3>{camera.date} (TODAY)</h3> : <h4>{camera.date}</h4>}
 
                         {camera?.cameras?.map(location => {
                             return (

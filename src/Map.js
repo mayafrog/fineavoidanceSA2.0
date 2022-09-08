@@ -2,8 +2,9 @@ import React, {
     useState,
     useEffect
 } from 'react';
-import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api'
+import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import moment from 'moment';
+import { Box } from '@mui/material'
 
 function Map() {
     const containerStyle = {
@@ -39,18 +40,18 @@ function Map() {
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.REACT_APP_MAPS_API_KEY
-    })
+    });
 
     if (!isLoaded) {
-        return <div>Loading...</div>
-    }
+        return <Box>Loading...</Box>
+    };
 
     const bounds = new window.google.maps.LatLngBounds();
     markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
     map?.fitBounds(bounds);
 
     return (
-        <div>
+        <Box>
             <p style={{ textAlign: "left", fontSize: 18}}>Today's date: {today}</p>
             <GoogleMap
                 mapContainerStyle={containerStyle}
@@ -66,13 +67,13 @@ function Map() {
                     >
                         {activeMarker === location ? (
                             <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                <div style={{ color: "black" }}>{location}</div>
+                                <Box style={{ color: "black" }}>{location}</Box>
                             </InfoWindowF>
                         ) : null}
                     </Marker>
                 ))}
             </GoogleMap>
-        </div>
+        </Box>
     );
 }
 

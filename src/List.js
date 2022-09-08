@@ -3,6 +3,7 @@ import React, {
     useEffect
 } from 'react';
 import moment from 'moment';
+import { Box } from '@mui/material'
 
 function List() {
     const [cameras, setCameras] = useState([]);
@@ -16,10 +17,10 @@ function List() {
     const today = moment().format('DD/MM/YYYY');
 
     return (
-        <div className="List">
+        <Box className="List">
             {cameras?.map((camera) => {
                 return (
-                    <div key={camera}>
+                    <Box key={camera}>
                         {camera.date === today ? <h3>{camera.date} (TODAY)</h3> : <h4>{camera.date}</h4>}
 
                         {camera?.cameras?.map(location => {
@@ -29,11 +30,11 @@ function List() {
                         })}
 
                         <hr />
-                    </div>
+                    </Box>
                 );
             })
             }
-        </div >
+        </Box >
     );
 }
 

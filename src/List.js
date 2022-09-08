@@ -2,6 +2,7 @@ import React, {
     useState,
     useEffect
 } from 'react';
+import moment from 'moment';
 
 function List() {
     const [cameras, setCameras] = useState([]);
@@ -12,12 +13,14 @@ function List() {
         });
     }, []);
 
+    const today = moment().format('DD/MM/YYYY');
+
     return (
         <div className="List">
             {cameras?.map((camera) => {
                 return (
                     <div key={camera}>
-                        <h6>{camera.date}</h6>
+                        <h6>{camera.date === today ? `${camera.date} (TODAY)` : camera.date}</h6>
 
                         {camera?.cameras?.map(location => {
                             return (

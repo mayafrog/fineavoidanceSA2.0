@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import moment from 'moment';
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 function Map() {
     const containerStyle = {
@@ -52,7 +52,7 @@ function Map() {
 
     return (
         <Box>
-            <p style={{ textAlign: "left", fontSize: 18}}>Today's date: {today}</p>
+            <Typography style={{ textAlign: "left", fontSize: 18}}>Today's date: {today}</Typography>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 options={options}

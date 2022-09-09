@@ -3,7 +3,7 @@ import React, {
     useEffect
 } from 'react';
 import moment from 'moment';
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 function List() {
     const [cameras, setCameras] = useState([]);
@@ -21,11 +21,11 @@ function List() {
             {cameras?.map((camera) => {
                 return (
                     <Box key={camera}>
-                        {camera.date === today ? <h3>{camera.date} (TODAY)</h3> : <h4>{camera.date}</h4>}
+                        {camera.date === today ? <Typography variant='h4'fontWeight={"500"}>{camera.date} (TODAY)</Typography> : <Typography variant='h4'>{camera.date}</Typography>}
 
                         {camera?.cameras?.map(location => {
                             return (
-                                <li style={{ fontSize: 14 }}>{location}</li>
+                                <Typography variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
                             );
                         })}
 

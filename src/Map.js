@@ -79,7 +79,7 @@ function Map() {
             </Grid>
             <Grid xs={2}>
                 <br></br>
-                <Typography variant='h4' fontWeight={"500"}>{markers[0]?.date}</Typography>
+                <Typography variant = "h6">{markers[0]?.date}</Typography>
                 {markers[0]?.cameras?.map(({ location, position }) => {
                     return (
                         <Typography key={location} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>

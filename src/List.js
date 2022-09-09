@@ -3,7 +3,8 @@ import React, {
     useEffect
 } from 'react';
 import moment from 'moment';
-import { Box, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function List() {
     const [cameras, setCameras] = useState([]);
@@ -21,15 +22,22 @@ function List() {
             {cameras?.map((camera) => {
                 return (
                     <Box key={camera.date}>
-                        {camera.date === today ? <Typography variant='h4' fontWeight={"500"}>{camera.date} (TODAY)</Typography> : <Typography variant='h4'>{camera.date}</Typography>}
-
-                        {camera?.cameras?.map((location, index) => {
-                            return (
-                                <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
-                            );
-                        })}
-
-                        <hr />
+                        <Accordion>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                {camera.date === today ? <Typography fontWeight={"500"}>{camera.date} (TODAY)</Typography> : <Typography>{camera.date}</Typography>}
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                {camera?.cameras?.map((location, index) => {
+                                    return (
+                                        <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                                    );
+                                })}
+                            </AccordionDetails>
+                        </Accordion>
                     </Box>
                 );
             })

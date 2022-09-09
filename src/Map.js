@@ -4,11 +4,11 @@ import React, {
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import moment from 'moment';
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
 function Map() {
     const containerStyle = {
-        width: '80vw',
+        width: '100%',
         height: '80vh'
     };
 
@@ -51,29 +51,42 @@ function Map() {
     };
 
     return (
-        <Box>
-            <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography>
-            <GoogleMap
-                mapContainerStyle={containerStyle}
-                options={options}
-                onLoad={handleOnLoad}
-                onClick={() => setActiveMarker(null)}
-            >
-                {markers[0]?.cameras?.map(({ location, position }) => (
-                    <Marker
-                        key={location}
-                        position={position}
-                        onClick={() => setActiveMarker(location)}
+        <Grid container spacing={2}>
+            <Grid xs={10}>
+                <Box>
+                    <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography>
+                    <GoogleMap
+                        mapContainerStyle={containerStyle}
+                        options={options}
+                        onLoad={handleOnLoad}
+                        onClick={() => setActiveMarker(null)}
                     >
-                        {activeMarker === location ? (
-                            <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                <Box style={{ color: "black" }}>{location}</Box>
-                            </InfoWindowF>
-                        ) : null}
-                    </Marker>
-                ))}
-            </GoogleMap>
-        </Box>
+                        {markers[0]?.cameras?.map(({ location, position }) => (
+                            <Marker
+                                key={location}
+                                position={position}
+                                onClick={() => setActiveMarker(location)}
+                            >
+                                {activeMarker === location ? (
+                                    <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
+                                        <Box style={{ color: "black" }}>{location}</Box>
+                                    </InfoWindowF>
+                                ) : null}
+                            </Marker>
+                        ))}
+                    </GoogleMap>
+                </Box>
+            </Grid>
+            <Grid xs={2}>
+                <br></br>
+                <Typography variant='h4' fontWeight={"500"}>{markers[0]?.date}</Typography>
+                {markers[0]?.cameras?.map(({ location, position }) => {
+                    return (
+                        <Typography key={location} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                    );
+                })}
+            </Grid>
+        </Grid>
     );
 }
 

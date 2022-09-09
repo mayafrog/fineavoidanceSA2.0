@@ -3,20 +3,20 @@ import React from 'react';
 import { useState } from 'react';
 import { default as Map } from "./Map.js";
 import { default as List } from "./List.js";
-import { Box, Tab, Typography } from "@mui/material";
+import { Box, Tab, Typography, Unstable_Grid2 as Grid } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 
 function App() {
   const [currentTab, setCurrentTab] = useState('1');
 
-  const handleTab = (event, newtab) => {
-    setCurrentTab(newtab);
+  const handleTab = (event, newTab) => {
+    setCurrentTab(newTab);
   };
 
   return (
     <Box className="App">
       <Box className="App-header">
-      
+
         <Typography variant="h4" component="h1" gutterBottom> Nhan's FineAvoidanceSA2.0 </Typography>
 
         <TabContext value={currentTab}>

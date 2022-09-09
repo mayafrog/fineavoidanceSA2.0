@@ -24,18 +24,22 @@ function Map() {
 
     const [markers, setMarkers] = useState([]);
 
-    const [map, setMap] = useState(null);
+    const markerData = fetch('/cameras-today').then(res => res.json()).then(data => {
+        return data;
+    });
+
+    const handleOnLoad = async (map) => {
+        let data = await markerData;
+        setMarkers(data);
+
+        const bounds = new window.google.maps.LatLngBounds();
+        data[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+        map?.fitBounds(bounds);
+    }
 
     const [activeMarker, setActiveMarker] = useState(null);
 
     const today = moment().format('DD/MM/YYYY');
-
-    useEffect(() => {
-        fetch('/cameras-today').then(res => res.json()).then(data => {
-            setMarkers(data);
-        });
-    }, []);
-
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -46,17 +50,13 @@ function Map() {
         return <Box>Loading...</Box>
     };
 
-    const bounds = new window.google.maps.LatLngBounds();
-    markers[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
-    map?.fitBounds(bounds);
-
     return (
         <Box>
-            <Typography style={{ textAlign: "left", fontSize: 18}}>Today's date: {today}</Typography>
+            <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 options={options}
-                onLoad={(map) => setMap(map)}
+                onLoad={handleOnLoad}
                 onClick={() => setActiveMarker(null)}
             >
                 {markers[0]?.cameras?.map(({ location, position }) => (

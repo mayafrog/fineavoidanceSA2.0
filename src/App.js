@@ -25,7 +25,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
 
-      <Typography variant="h4" component="h1" gutterBottom textAlign={"center"} marginTop={"20px"}> Nhan's FineAvoidanceSA2.0 </Typography>
+      <Typography variant="h4" component="h1" gutterBottom textAlign={"center"} marginTop={"20px"}> FineAvoidanceSA2.0 </Typography>
 
       <TabContext value={currentTab}>
         <Box sx={{ borderBottom: 1, borderColor: 'white' }}>

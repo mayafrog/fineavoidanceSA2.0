@@ -3,7 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import { default as Map } from "./Map.js";
 import { default as List } from "./List.js";
-import { Box, Tab, Typography, Unstable_Grid2 as Grid } from "@mui/material";
+import { Box, Tab, Typography } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

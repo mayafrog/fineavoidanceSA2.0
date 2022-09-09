@@ -1,6 +1,5 @@
 import React, {
-    useState,
-    useEffect
+    useState
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import moment from 'moment';

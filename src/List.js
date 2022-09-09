@@ -20,12 +20,12 @@ function List() {
         <Box className="List">
             {cameras?.map((camera) => {
                 return (
-                    <Box key={camera}>
+                    <Box key={camera.date}>
                         {camera.date === today ? <Typography variant='h4'fontWeight={"500"}>{camera.date} (TODAY)</Typography> : <Typography variant='h4'>{camera.date}</Typography>}
 
-                        {camera?.cameras?.map(location => {
+                        {camera?.cameras?.map((location, index) => {
                             return (
-                                <Typography variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                                <Typography key = {camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
                             );
                         })}
 

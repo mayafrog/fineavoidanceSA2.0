@@ -6,11 +6,16 @@ import moment from 'moment';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function List() {
+function HistoricalList() {
     const [cameras, setCameras] = useState([]);
 
     useEffect(() => {
-        fetch('/cameras').then(res => res.json()).then(data => {
+        fetch('/all-cameras').then(res => res.json()).then(data => {
+            data.sort(function (a, b) {
+                a = a.date.split('/');
+                b = b.date.split('/');
+                return a[2] - b[2] || a[1] - b[1] || a[0] - b[0];
+            });
             setCameras(data);
         });
     }, []);
@@ -18,7 +23,7 @@ function List() {
     const today = moment().format('DD/MM/YYYY');
 
     return (
-        <Box className="List">
+        <Box className="HistoricalList">
             {cameras?.map((camera) => {
                 return (
                     <Box key={camera.date}>
@@ -33,7 +38,7 @@ function List() {
                             <AccordionDetails>
                                 {camera?.cameras?.map((location, index) => {
                                     return (
-                                        <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                                        <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location.location}</Typography>
                                     );
                                 })}
                             </AccordionDetails>
@@ -46,4 +51,4 @@ function List() {
     );
 }
 
-export default List;
+export default HistoricalList;

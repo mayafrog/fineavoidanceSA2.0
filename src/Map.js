@@ -8,7 +8,7 @@ import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 function Map() {
     const containerStyle = {
         width: '100%',
-        height: '80vh'
+        height: '79vh'
     };
 
     // const center = {

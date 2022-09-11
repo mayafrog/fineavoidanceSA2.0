@@ -32,7 +32,7 @@ function Map() {
         setMarkers(data);
 
         const bounds = new window.google.maps.LatLngBounds();
-        data[0]?.cameras?.forEach(({ position }) => bounds.extend(position));
+        data?.cameras?.forEach(({ position }) => bounds.extend(position));
         map?.fitBounds(bounds);
     }
 
@@ -60,7 +60,7 @@ function Map() {
                         onLoad={handleOnLoad}
                         onClick={() => setActiveMarker(null)}
                     >
-                        {markers[0]?.cameras?.map(({ location, position }) => (
+                        {markers?.cameras?.map(({ location, position }) => (
                             <Marker
                                 key={location}
                                 position={position}
@@ -78,8 +78,8 @@ function Map() {
             </Grid>
             <Grid xs={2}>
                 <br></br>
-                <Typography variant="h6">{markers[0]?.date}</Typography>
-                {markers[0]?.cameras?.map(({ location, position }) => {
+                <Typography variant="h6">{markers?.date}</Typography>
+                {markers?.cameras?.map(({ location, position }) => {
                     return (
                         <Typography key={location} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
                     );

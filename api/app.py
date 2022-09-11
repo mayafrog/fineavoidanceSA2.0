@@ -89,20 +89,25 @@ def create_app(test_config=None):
     # route to scrape and return list of all cameras
     @app.route('/cameras', methods=['GET'])
     def get_cameras():
-        res = scrape()
+        try:
+            res = scrape()
 
-        # sort by ascending date
-        res.sort(key=lambda x: datetime.strptime(x.get("date"), "%d/%m/%Y"))
+            # sort by ascending date
+            res.sort(key=lambda x: datetime.strptime(
+                x.get("date"), "%d/%m/%Y"))
 
-        # return as JSON array
-        return jsonify(res)
+            # return as JSON array
+            return jsonify(res), 200
+
+        except Exception as e:
+            return f"An Error Occurred: {e}"
 
     # route to upsert information into database for a certain date
     @app.route('/cameras', methods=['POST', 'PUT'])
     def upsert_cameras():
         try:
             ref = db.collection('cameras')
-            for each in ref.get():
+            for each in ref.stream():
                 if each.get('date') == request.json['date']:
                     ref.document(each.id).update(request.json)
                     break
@@ -121,6 +126,7 @@ def create_app(test_config=None):
             ref = db.collection('cameras')
             all_entries = [doc.to_dict() for doc in ref.stream()]
             return jsonify(all_entries), 200
+
         except Exception as e:
             return f"An Error Occurred: {e}"
 
@@ -152,7 +158,6 @@ def create_app(test_config=None):
 
                 res.append(obj)
 
-            # make transactional
             for each in res:
                 ref.add(each)
 
@@ -167,9 +172,16 @@ def create_app(test_config=None):
         today = (date.today().strftime("%d/%m/%Y"))
         try:
             ref = db.collection('cameras')
+
             all_entries = [doc.to_dict() for doc in ref.where(
                 "date", "==", today).stream()]
-            return jsonify(all_entries), 200
+
+            if all_entries:
+                return jsonify(all_entries[0]), 200
+
+            else:
+                return {}, 404
+
         except Exception as e:
             return f"An Error Occurred: {e}"
 

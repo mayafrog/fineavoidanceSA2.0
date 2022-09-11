@@ -1,9 +1,7 @@
 import './App.css';
 import React from 'react';
 import { useState } from 'react';
-import { default as Map } from "./Map.js";
-import { default as List } from "./List.js";
-import { default as HistoricalList } from "./HistoricalList.js";
+import { Map, List, HistoricalList } from './components'
 import { Box, Tab, Typography } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 import { ThemeProvider, createTheme } from '@mui/material/styles';

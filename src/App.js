@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { useState } from 'react';
 import { Map, List, HistoricalList } from './components'
+import { Navbar } from './containers';
 import { Box, Tab, Typography } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -24,7 +25,7 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
 
-      <Typography variant="h4" component="h1" gutterBottom textAlign={"center"} marginTop={"20px"}> FineAvoidanceSA2.0 </Typography>
+      <Navbar />
 
       <TabContext value={currentTab}>
         <Box sx={{ borderBottom: 1, borderColor: 'white' }}>

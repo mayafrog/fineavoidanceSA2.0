@@ -6,15 +6,7 @@ import moment from 'moment';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function List() {
-    const [cameras, setCameras] = useState([]);
-
-    useEffect(() => {
-        fetch('/cameras').then(res => res.json()).then(data => {
-            setCameras(data);
-        });
-    }, []);
-
+function List({ cameras, setCameras }) {
     const today = moment().format('DD/MM/YYYY');
 
     return (
@@ -28,12 +20,16 @@ function List() {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                {camera.date === today ? <Typography fontWeight={"500"}>{camera.date} (TODAY)</Typography> : <Typography variant='subtitle2' fontWeight={300}>{camera.date}</Typography>}
+                                {camera.date === today
+                                    ? <Typography fontWeight={"500"}>{camera.date} (TODAY)</Typography>
+                                    : <Typography variant='subtitle2' fontWeight={300}>{camera.date}</Typography>}
                             </AccordionSummary>
                             <AccordionDetails>
                                 {camera?.cameras?.map((location, index) => {
                                     return (
-                                        <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                                        location.location
+                                            ? <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location.location}</Typography>
+                                            : <Typography key={camera.date + " " + index} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
                                     );
                                 })}
                             </AccordionDetails>

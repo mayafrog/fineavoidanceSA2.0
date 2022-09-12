@@ -1,15 +1,33 @@
 import React from "react";
-import { useState } from 'react';
-import { Map, List, HistoricalList } from '../../components'
+import { useState, useEffect } from 'react';
+import { Map, List } from '../../components'
 import { Box, Tab, Typography } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 
 function Tabs() {
     const [currentTab, setCurrentTab] = useState('1');
-
     const handleTab = (event, newTab) => {
         setCurrentTab(newTab);
     };
+
+    const [scrapedCameras, setScrapedCameras] = useState([]);
+    useEffect(() => {
+        fetch('/cameras').then(res => res.json()).then(data => {
+            setScrapedCameras(data);
+        });
+    }, []);
+
+    const [historicalCameras, setHistoricalCameras] = useState([]);
+    useEffect(() => {
+        fetch('/all-cameras').then(res => res.json()).then(data => {
+            data.sort(function (a, b) {
+                a = a.date.split('/');
+                b = b.date.split('/');
+                return a[2] - b[2] || a[1] - b[1] || a[0] - b[0];
+            });
+            setHistoricalCameras(data);
+        });
+    }, []);
 
     return (
         <TabContext value={currentTab}>
@@ -21,8 +39,8 @@ function Tabs() {
                 </TabList>
             </Box>
             <TabPanel value="1"> <Map /> </TabPanel>
-            <TabPanel value="2"> <List /> </TabPanel>
-            <TabPanel value="3"> <HistoricalList /> </TabPanel>
+            <TabPanel value="2"> <List cameras={scrapedCameras} setCameras={setScrapedCameras} /> </TabPanel>
+            <TabPanel value="3"> <List cameras={historicalCameras} setCameras={setHistoricalCameras} /> </TabPanel>
         </TabContext>
     )
 

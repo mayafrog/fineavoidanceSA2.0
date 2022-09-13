@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Map, List } from '../../components'
-import { Box, Tab } from "@mui/material";
+import { Map, List, IndividualList } from '../../components'
+import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 
 function TabContainer() {
@@ -37,6 +37,7 @@ function TabContainer() {
 
     return (
         <TabContext value={currentTab}>
+
             <Box sx={{ borderBottom: 1, borderColor: 'white' }}>
                 <TabList onChange={handleTab} textColor="inherit" indicatorColor='white'>
                     <Tab label="Map" value="1" />
@@ -44,9 +45,21 @@ function TabContainer() {
                     <Tab label="Historical Data" value="3" />
                 </TabList>
             </Box>
-            <TabPanel value="1"> <Map markers={markers} setMarkers={setMarkers} markerData={markerData} /> </TabPanel>
-            <TabPanel value="2"> <List cameras={scrapedCameras} setCameras={setScrapedCameras} /> </TabPanel>
-            <TabPanel value="3"> <List cameras={historicalCameras} setCameras={setHistoricalCameras} /> </TabPanel>
+
+            <TabPanel value="1">
+                <Grid container spacing={2}>
+                    <Map markers={markers} setMarkers={setMarkers} markerData={markerData} />
+                    <IndividualList markers={markers} setMarkers={setMarkers} markerData={markerData} />
+                </Grid>
+            </TabPanel>
+
+            <TabPanel value="2">
+                <List cameras={scrapedCameras} setCameras={setScrapedCameras} />
+            </TabPanel>
+
+            <TabPanel value="3">
+                <List cameras={historicalCameras} setCameras={setHistoricalCameras} />
+            </TabPanel>
         </TabContext>
     )
 

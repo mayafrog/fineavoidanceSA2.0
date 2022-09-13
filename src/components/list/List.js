@@ -1,7 +1,4 @@
-import React, {
-    useState,
-    useEffect
-} from 'react';
+import React from 'react';
 import moment from 'moment';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';

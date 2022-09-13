@@ -1,14 +1,20 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { Map, List } from '../../components'
-import { Box, Tab, Typography } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 
-function Tabs() {
+function TabContainer() {
     const [currentTab, setCurrentTab] = useState('1');
     const handleTab = (event, newTab) => {
         setCurrentTab(newTab);
     };
+
+    const [markers, setMarkers] = useState([]);
+
+    const markerData = fetch('/cameras-today').then(res => res.json()).then(data => {
+        return data;
+    });
 
     const [scrapedCameras, setScrapedCameras] = useState([]);
     useEffect(() => {
@@ -38,11 +44,11 @@ function Tabs() {
                     <Tab label="Historical Data" value="3" />
                 </TabList>
             </Box>
-            <TabPanel value="1"> <Map /> </TabPanel>
+            <TabPanel value="1"> <Map markers={markers} setMarkers={setMarkers} markerData={markerData} /> </TabPanel>
             <TabPanel value="2"> <List cameras={scrapedCameras} setCameras={setScrapedCameras} /> </TabPanel>
             <TabPanel value="3"> <List cameras={historicalCameras} setCameras={setHistoricalCameras} /> </TabPanel>
         </TabContext>
     )
 
 }
-export default Tabs;
+export default TabContainer;

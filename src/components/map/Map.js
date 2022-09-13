@@ -5,7 +5,7 @@ import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-ma
 import moment from 'moment';
 import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
-function Map() {
+function Map({ markers, setMarkers, markerData }) {
     const containerStyle = {
         width: '100%',
         height: '79vh'
@@ -20,12 +20,6 @@ function Map() {
         gestureHandling: 'greedy',
         clickableIcons: false
     };
-
-    const [markers, setMarkers] = useState([]);
-
-    const markerData = fetch('/cameras-today').then(res => res.json()).then(data => {
-        return data;
-    });
 
     const handleOnLoad = async (map) => {
         let data = await markerData;

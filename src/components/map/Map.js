@@ -20,20 +20,36 @@ function Map({ markers, setMarkers, markerData, historicalCameras, selectedDate 
         clickableIcons: false
     };
 
+    const [ref, setRef] = useState(null);
+
     useEffect(() => {
         const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
-        console.log(selectedDate.format('DD/MM/YYYY'));
-        console.log(temp);
         setMarkers(temp);
+
+        if (ref) {
+            const bounds = new window.google.maps.LatLngBounds();
+            temp?.cameras?.forEach(({ position }) => bounds.extend(position));
+            ref?.fitBounds(bounds);
+        }
 
     }, [selectedDate]);
 
     const handleOnLoad = async (map) => {
-        let data = await markerData;
-        setMarkers(data);
+        if (!ref) {
+            setRef(map);
+        }
 
         const bounds = new window.google.maps.LatLngBounds();
-        data?.cameras?.forEach(({ position }) => bounds.extend(position));
+
+        if (!markers) {
+            let data = await markerData;
+            setMarkers(data);
+            data?.cameras?.forEach(({ position }) => bounds.extend(position));
+        }
+        else {
+            markers?.cameras?.forEach(({ position }) => bounds.extend(position));
+        }
+
         map?.fitBounds(bounds);
     }
 

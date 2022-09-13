@@ -2,12 +2,12 @@ import React, {
     useState
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
-import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Unstable_Grid2 as Grid } from '@mui/material'
 
 function Map({ markers, setMarkers, markerData, today }) {
     const containerStyle = {
         width: '100%',
-        height: '79vh'
+        height: '76.5vh'
     };
 
     // const center = {
@@ -43,7 +43,7 @@ function Map({ markers, setMarkers, markerData, today }) {
     return (
         <Grid xs={10}>
             <Box>
-                <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography>
+                {/* <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography> */}
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     options={options}

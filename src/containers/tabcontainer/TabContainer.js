@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Map, AccordionList, IndividualList } from '../../components'
+import { Map, AccordionList, IndividualList, DateSelector } from '../../components'
 import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 import moment from 'moment';
@@ -38,6 +38,8 @@ function TabContainer() {
 
     const today = moment().format('DD/MM/YYYY');
 
+    const [selectedDate, setSelectedDate] = useState(moment());
+
     return (
         <TabContext value={currentTab}>
 
@@ -50,6 +52,7 @@ function TabContainer() {
             </Box>
 
             <TabPanel value="1">
+                <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
                 <Grid container spacing={2}>
                     <Map markers={markers} setMarkers={setMarkers} markerData={markerData} today={today} />
                     <IndividualList markers={markers} setMarkers={setMarkers} markerData={markerData} />

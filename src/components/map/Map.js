@@ -1,10 +1,10 @@
 import React, {
-    useState
+    useState, useEffect
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import { Box, Unstable_Grid2 as Grid } from '@mui/material'
 
-function Map({ markers, setMarkers, markerData, today }) {
+function Map({ markers, setMarkers, markerData, historicalCameras, selectedDate }) {
     const containerStyle = {
         width: '100%',
         height: '76.5vh'
@@ -19,6 +19,14 @@ function Map({ markers, setMarkers, markerData, today }) {
         gestureHandling: 'greedy',
         clickableIcons: false
     };
+
+    useEffect(() => {
+        const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
+        console.log(selectedDate.format('DD/MM/YYYY'));
+        console.log(temp);
+        setMarkers(temp);
+
+    }, [selectedDate]);
 
     const handleOnLoad = async (map) => {
         let data = await markerData;

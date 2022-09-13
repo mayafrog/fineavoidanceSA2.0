@@ -11,8 +11,6 @@ function TabContainer() {
         setCurrentTab(newTab);
     };
 
-    const [markers, setMarkers] = useState([]);
-
     const markerData = fetch('/cameras-today').then(res => res.json()).then(data => {
         return data;
     });
@@ -36,9 +34,8 @@ function TabContainer() {
         });
     }, []);
 
-    const today = moment().format('DD/MM/YYYY');
-
     const [selectedDate, setSelectedDate] = useState(moment());
+    const [markers, setMarkers] = useState(historicalCameras.filter(val => val.date === moment().format('DD/MM/YYYY')));
 
     return (
         <TabContext value={currentTab}>
@@ -54,8 +51,8 @@ function TabContainer() {
             <TabPanel value="1">
                 <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
                 <Grid container spacing={2}>
-                    <Map markers={markers} setMarkers={setMarkers} markerData={markerData} today={today} />
-                    <IndividualList markers={markers} setMarkers={setMarkers} markerData={markerData} />
+                    <Map markers={markers} setMarkers={setMarkers} selectedDate={selectedDate} historicalCameras={historicalCameras} markerData={markerData} />
+                    {/* <IndividualList markers={markers} setMarkers={setMarkers} /> */}
                 </Grid>
             </TabPanel>
 

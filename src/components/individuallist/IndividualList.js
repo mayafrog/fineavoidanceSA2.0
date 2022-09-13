@@ -1,6 +1,6 @@
 import { Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
-function IndividualList({ markers, setMarkers, markerData }) {
+function IndividualList({ markers, setMarkers }) {
     return (
         <Grid xs={2}>
             <br></br>

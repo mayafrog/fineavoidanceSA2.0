@@ -2,10 +2,9 @@ import React, {
     useState
 } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
-import moment from 'moment';
 import { Box, Typography, Unstable_Grid2 as Grid } from '@mui/material'
 
-function Map({ markers, setMarkers, markerData }) {
+function Map({ markers, setMarkers, markerData, today }) {
     const containerStyle = {
         width: '100%',
         height: '79vh'
@@ -31,8 +30,6 @@ function Map({ markers, setMarkers, markerData }) {
     }
 
     const [activeMarker, setActiveMarker] = useState(null);
-
-    const today = moment().format('DD/MM/YYYY');
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',

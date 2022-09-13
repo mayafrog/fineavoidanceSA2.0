@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Map, List, IndividualList } from '../../components'
 import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
+import moment from 'moment';
 
 function TabContainer() {
     const [currentTab, setCurrentTab] = useState('1');
@@ -35,6 +36,8 @@ function TabContainer() {
         });
     }, []);
 
+    const today = moment().format('DD/MM/YYYY');
+
     return (
         <TabContext value={currentTab}>
 
@@ -48,7 +51,7 @@ function TabContainer() {
 
             <TabPanel value="1">
                 <Grid container spacing={2}>
-                    <Map markers={markers} setMarkers={setMarkers} markerData={markerData} />
+                    <Map markers={markers} setMarkers={setMarkers} markerData={markerData} today={today} />
                     <IndividualList markers={markers} setMarkers={setMarkers} markerData={markerData} />
                 </Grid>
             </TabPanel>

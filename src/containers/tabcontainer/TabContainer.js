@@ -11,7 +11,7 @@ function TabContainer() {
         setCurrentTab(newTab);
     };
 
-    const markerData = fetch('/cameras-today').then(res => res.json()).then(data => {
+    const getMarkers = fetch('/cameras-today').then(res => res.json()).then(data => {
         return data;
     });
 
@@ -51,7 +51,7 @@ function TabContainer() {
             <TabPanel value="1">
                 <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
                 <Grid container spacing={2}>
-                    <Map markers={markers} setMarkers={setMarkers} selectedDate={selectedDate} historicalCameras={historicalCameras} markerData={markerData} />
+                    <Map markers={markers} setMarkers={setMarkers} selectedDate={selectedDate} historicalCameras={historicalCameras} getMarkers={getMarkers} />
                     <IndividualList markers={markers} setMarkers={setMarkers} />
                 </Grid>
             </TabPanel>

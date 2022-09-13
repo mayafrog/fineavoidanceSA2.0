@@ -4,7 +4,7 @@ import React, {
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import { Box, Unstable_Grid2 as Grid } from '@mui/material'
 
-function Map({ markers, setMarkers, markerData, historicalCameras, selectedDate }) {
+function Map({ markers, setMarkers, getMarkers, historicalCameras, selectedDate }) {
     const containerStyle = {
         width: '100%',
         height: '76.5vh'
@@ -42,7 +42,7 @@ function Map({ markers, setMarkers, markerData, historicalCameras, selectedDate 
         const bounds = new window.google.maps.LatLngBounds();
 
         if (!markers) {
-            let data = await markerData;
+            let data = await getMarkers;
             setMarkers(data);
             data?.cameras?.forEach(({ position }) => bounds.extend(position));
         }

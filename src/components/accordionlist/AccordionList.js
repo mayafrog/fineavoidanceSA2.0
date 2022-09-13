@@ -3,11 +3,11 @@ import moment from 'moment';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-function List({ cameras, setCameras }) {
+function AccordionList({ cameras, setCameras }) {
     const today = moment().format('DD/MM/YYYY');
 
     return (
-        <Box className="List">
+        <Box className="AccordionList">
             {cameras?.map((camera) => {
                 return (
                     <Box key={camera.date}>
@@ -39,4 +39,4 @@ function List({ cameras, setCameras }) {
     );
 }
 
-export default List;
+export default AccordionList;

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Map, List, IndividualList } from '../../components'
+import { Map, AccordionList, IndividualList } from '../../components'
 import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
 import { TabPanel, TabContext, TabList } from "@mui/lab"
 import moment from 'moment';
@@ -57,11 +57,11 @@ function TabContainer() {
             </TabPanel>
 
             <TabPanel value="2">
-                <List cameras={scrapedCameras} setCameras={setScrapedCameras} />
+                <AccordionList cameras={scrapedCameras} setCameras={setScrapedCameras} />
             </TabPanel>
 
             <TabPanel value="3">
-                <List cameras={historicalCameras} setCameras={setHistoricalCameras} />
+                <AccordionList cameras={historicalCameras} setCameras={setHistoricalCameras} />
             </TabPanel>
         </TabContext>
     )

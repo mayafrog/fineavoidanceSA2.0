@@ -14,6 +14,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
+        SCHEDULER_TIMEZONE="Australia/Adelaide"
     )
 
     # initialise Firestore DB
@@ -189,9 +190,9 @@ def create_app(test_config=None):
     upsert_all_cameras()
 
     # set scheduler to run every 24 hours (starting from start time of the application)
-    @scheduler.task('interval', id='daily_update', days=1)
+    @scheduler.task('cron', id='daily_update', day_of_week="mon", hour="1")
     def daily_update():
         upsert_all_cameras()
-        print("Finished daily update of cameras")
+        print("Finished update of cameras")
 
     return app

@@ -9,6 +9,8 @@ function DateSelector({ selectedDate, setSelectedDate, historicalCameras }) {
             <DatePicker
                 label="Date"
                 inputFormat="DD/MM/YYYY"
+                minDate={moment(historicalCameras[0]?.date, 'DD/MM/YYYY')}
+                maxDate={moment(historicalCameras[historicalCameras.length - 1]?.date, 'DD/MM/YYYY')}
                 value={selectedDate}
                 onChange={(newValue) => {
                     setSelectedDate(newValue);

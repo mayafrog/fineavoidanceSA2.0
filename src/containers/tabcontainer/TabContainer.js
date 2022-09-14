@@ -11,10 +11,6 @@ function TabContainer() {
         setCurrentTab(newTab);
     };
 
-    const defaultMarkers = fetch('/cameras-today').then(res => res.json()).then(data => {
-        return data;
-    });
-
     const [scrapedCameras, setScrapedCameras] = useState([]);
     useEffect(() => {
         fetch('/cameras').then(res => res.json()).then(data => {
@@ -35,7 +31,6 @@ function TabContainer() {
     }, []);
 
     const [selectedDate, setSelectedDate] = useState(moment());
-    const [markers, setMarkers] = useState(historicalCameras.filter(val => val.date === moment().format('DD/MM/YYYY')));
 
     return (
         <TabContext value={currentTab}>
@@ -51,8 +46,8 @@ function TabContainer() {
             <TabPanel value="1">
                 <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
                 <Grid container spacing={2}>
-                    <Map markers={markers} setMarkers={setMarkers} selectedDate={selectedDate} historicalCameras={historicalCameras} defaultMarkers={defaultMarkers} />
-                    <IndividualList markers={markers} setMarkers={setMarkers} />
+                    <Map selectedDate={selectedDate} historicalCameras={historicalCameras} />
+                    {/* <IndividualList markers={markers} setMarkers={setMarkers} /> */}
                 </Grid>
             </TabPanel>
 

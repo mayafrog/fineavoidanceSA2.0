@@ -4,7 +4,7 @@ import React, {
 import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
 import { Box, Unstable_Grid2 as Grid } from '@mui/material'
 
-function Map({ markers, setMarkers, defaultMarkers, historicalCameras, selectedDate }) {
+function Map({ historicalCameras, selectedDate }) {
     const containerStyle = {
         width: '100%',
         height: '76.5vh'
@@ -24,7 +24,6 @@ function Map({ markers, setMarkers, defaultMarkers, historicalCameras, selectedD
 
     useEffect(() => {
         const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
-        setMarkers(temp);
 
         if (ref) {
             const bounds = new window.google.maps.LatLngBounds();
@@ -32,23 +31,27 @@ function Map({ markers, setMarkers, defaultMarkers, historicalCameras, selectedD
             ref?.fitBounds(bounds);
         }
 
-    }, [selectedDate]);
+    }, [historicalCameras]);
 
-    const handleOnLoad = async (map) => {
+    const handleOnLoad = (map) => {
         if (!ref) {
             setRef(map);
         }
 
         const bounds = new window.google.maps.LatLngBounds();
 
-        if (!markers) {
-            let data = await defaultMarkers;
-            setMarkers(data);
-            data?.cameras?.forEach(({ position }) => bounds.extend(position));
-        }
-        else {
-            markers?.cameras?.forEach(({ position }) => bounds.extend(position));
-        }
+        const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]
+
+        // if (!historicalCameras) {
+        //     defaultMarkers?.cameras?.forEach(({ position }) => bounds.extend(position));
+        // }
+        // else {
+        temp?.cameras?.forEach(({ position }) => bounds.extend(position));
+        // }
+
+        // temp?.cameras?.forEach(({ position }) => bounds.extend(position));
+
+        console.log(temp);
 
         map?.fitBounds(bounds);
     }
@@ -74,7 +77,7 @@ function Map({ markers, setMarkers, defaultMarkers, historicalCameras, selectedD
                     onLoad={handleOnLoad}
                     onClick={() => setActiveMarker(null)}
                 >
-                    {markers?.cameras?.map(({ location, position }) => (
+                    {historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]?.cameras?.map(({ location, position }) => (
                         <Marker
                             key={location}
                             position={position}

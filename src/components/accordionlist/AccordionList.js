@@ -7,7 +7,7 @@ function AccordionList({ cameras, setCameras }) {
     const today = moment().format('DD/MM/YYYY');
 
     return (
-        <Box className="AccordionList">
+        <>
             {cameras?.map((camera) => {
                 return (
                     <Box key={camera.date}>
@@ -35,7 +35,7 @@ function AccordionList({ cameras, setCameras }) {
                 );
             })
             }
-        </Box>
+        </>
     );
 }
 

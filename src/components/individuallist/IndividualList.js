@@ -4,7 +4,7 @@ function IndividualList({ historicalCameras, selectedDate }) {
     const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
 
     return (
-        <Grid xs={2}>
+        <>
             <br></br>
             <Typography variant="h6">{temp?.date}</Typography>
             {temp?.cameras?.map(({ location, position }) => {
@@ -12,7 +12,7 @@ function IndividualList({ historicalCameras, selectedDate }) {
                     <Typography key={location} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
                 );
             })}
-        </Grid>
+        </>
     );
 
 }

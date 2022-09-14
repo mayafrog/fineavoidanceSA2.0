@@ -47,31 +47,29 @@ function Map({ historicalCameras, selectedDate }) {
     };
 
     return (
-        <Grid xs={10}>
-            <Box>
-                {/* <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography> */}
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    options={options}
-                    onLoad={handleOnLoad}
-                    onClick={() => setActiveMarker(null)}
-                >
-                    {historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]?.cameras?.map(({ location, position }) => (
-                        <Marker
-                            key={location}
-                            position={position}
-                            onClick={() => setActiveMarker(location)}
-                        >
-                            {activeMarker === location ? (
-                                <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                    <Box style={{ color: "black" }}>{location}</Box>
-                                </InfoWindowF>
-                            ) : null}
-                        </Marker>
-                    ))}
-                </GoogleMap>
-            </Box>
-        </Grid>
+        <Box>
+            {/* <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography> */}
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                options={options}
+                onLoad={handleOnLoad}
+                onClick={() => setActiveMarker(null)}
+            >
+                {historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]?.cameras?.map(({ location, position }) => (
+                    <Marker
+                        key={location}
+                        position={position}
+                        onClick={() => setActiveMarker(location)}
+                    >
+                        {activeMarker === location ? (
+                            <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
+                                <Box style={{ color: "black" }}>{location}</Box>
+                            </InfoWindowF>
+                        ) : null}
+                    </Marker>
+                ))}
+            </GoogleMap>
+        </Box>
     );
 }
 

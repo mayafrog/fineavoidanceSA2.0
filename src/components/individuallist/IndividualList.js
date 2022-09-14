@@ -1,4 +1,4 @@
-import { Typography, Unstable_Grid2 as Grid } from '@mui/material'
+import { Typography, Unstable_Grid2 as Grid } from '@mui/material';
 
 function IndividualList({ historicalCameras, selectedDate }) {
     const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];

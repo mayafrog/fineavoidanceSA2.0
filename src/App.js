@@ -1,8 +1,8 @@
-import './App.css';
-import React from 'react';
-import { Navbar, TabContainer } from './containers';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from 'react';
+import './App.css';
+import { Navbar, TabContainer } from './containers';
 
 const darkTheme = createTheme({
   palette: {

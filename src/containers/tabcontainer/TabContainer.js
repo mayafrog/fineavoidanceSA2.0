@@ -1,9 +1,8 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import { Map, AccordionList, IndividualList, DateSelector } from '../../components'
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
-import { TabPanel, TabContext, TabList } from "@mui/lab"
 import moment from 'moment';
+import React, { useEffect, useState } from "react";
+import { AccordionList, DateSelector, IndividualList, Map } from '../../components';
 
 function TabContainer() {
     const [currentTab, setCurrentTab] = useState('1');

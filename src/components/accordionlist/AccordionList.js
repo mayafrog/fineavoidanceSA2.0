@@ -1,7 +1,7 @@
-import React from 'react';
-import moment from 'moment';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '@mui/material';
+import moment from 'moment';
+import React from 'react';
 
 function AccordionList({ cameras, setCameras }) {
     const today = moment().format('DD/MM/YYYY');

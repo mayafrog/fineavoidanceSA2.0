@@ -1,8 +1,6 @@
-import React, {
-    useState, useEffect
-} from 'react';
-import { useJsApiLoader, GoogleMap, Marker, InfoWindowF } from '@react-google-maps/api';
-import { Box, Unstable_Grid2 as Grid } from '@mui/material'
+import { Box, Unstable_Grid2 as Grid } from '@mui/material';
+import { GoogleMap, InfoWindowF, Marker, useJsApiLoader } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
 
 function Map({ historicalCameras, selectedDate }) {
     const containerStyle = {

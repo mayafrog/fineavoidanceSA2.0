@@ -31,29 +31,10 @@ function Map({ historicalCameras, selectedDate }) {
             ref?.fitBounds(bounds);
         }
 
-    }, [historicalCameras]);
+    }, [historicalCameras, selectedDate, ref]);
 
     const handleOnLoad = (map) => {
-        if (!ref) {
-            setRef(map);
-        }
-
-        const bounds = new window.google.maps.LatLngBounds();
-
-        const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]
-
-        // if (!historicalCameras) {
-        //     defaultMarkers?.cameras?.forEach(({ position }) => bounds.extend(position));
-        // }
-        // else {
-        temp?.cameras?.forEach(({ position }) => bounds.extend(position));
-        // }
-
-        // temp?.cameras?.forEach(({ position }) => bounds.extend(position));
-
-        console.log(temp);
-
-        map?.fitBounds(bounds);
+        setRef(map);
     }
 
     const [activeMarker, setActiveMarker] = useState(null);

@@ -47,7 +47,7 @@ function TabContainer() {
                 <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
                 <Grid container spacing={2}>
                     <Map selectedDate={selectedDate} historicalCameras={historicalCameras} />
-                    {/* <IndividualList markers={markers} setMarkers={setMarkers} /> */}
+                    <IndividualList selectedDate={selectedDate} historicalCameras={historicalCameras} />
                 </Grid>
             </TabPanel>
 

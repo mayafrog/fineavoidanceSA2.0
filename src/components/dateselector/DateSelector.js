@@ -6,13 +6,16 @@ function DateSelector({ selectedDate, setSelectedDate, historicalCameras }) {
     return (
         <>
             <DatePicker
+                label="Selected date"
                 value={dayjs(selectedDate).toDate()}
                 onChange={(newDate) => {
                     setSelectedDate(newDate);
                 }}
+                clearable={false}
                 inputFormat="DD/MM/YYYY"
                 minDate={dayjs(historicalCameras[0]?.date, 'DD/MM/YYYY').toDate()}
                 maxDate={dayjs(historicalCameras[historicalCameras.length - 1]?.date, 'DD/MM/YYYY').toDate()}
+                withAsterisk
             />
         </>
     )

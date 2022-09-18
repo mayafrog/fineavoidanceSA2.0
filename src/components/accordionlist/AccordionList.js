@@ -1,4 +1,4 @@
-import { Accordion } from '@mantine/core';
+import { Accordion, Text } from '@mantine/core';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -12,15 +12,15 @@ function AccordionList({ cameras }) {
                     <Accordion.Item key={camera.date} value={camera.date}>
                         <Accordion.Control>
                             {camera.date === today
-                                ? <p>{camera.date} (TODAY)</p>
-                                : <p>{camera.date}</p>}
+                                ? <Text weight={700}>{camera.date} (TODAY)</Text>
+                                : <Text>{camera.date}</Text>}
                         </Accordion.Control>
                         <Accordion.Panel>
                             {camera?.cameras?.map((location, index) => {
                                 return (
                                     location.location
-                                        ? <p key={camera.date + " " + index} >{location.location}</p>
-                                        : <p key={camera.date + " " + index} >{location}</p>
+                                        ? <Text key={camera.date + " " + index} >{location.location}</Text>
+                                        : <Text key={camera.date + " " + index} >{location}</Text>
                                 );
                             })}
                         </Accordion.Panel>

@@ -1,4 +1,4 @@
-import { Tabs } from '@mantine/core';
+import { Grid, Tabs } from '@mantine/core';
 import { IconCalendar, IconHistory, IconMap } from '@tabler/icons';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from "react";
@@ -36,17 +36,27 @@ function TabContainer() {
                 <Tabs.Tab value="historical" icon={<IconHistory size={14} />}>Historical Data</Tabs.Tab>
             </Tabs.List>
 
-            <Tabs.Panel value="map" pt="xs">
-                <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} ></DateSelector>
-                <Map cameras={historicalCameras} selectedDate={selectedDate}></Map>
-                <IndividualList cameras={historicalCameras} selectedDate={selectedDate}></IndividualList>
+            <Tabs.Panel value="map" pt="xs" mx="md">
+                <Grid>
+                    <Grid.Col span={2}>
+                        <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} ></DateSelector>
+                    </Grid.Col>
+                </Grid>
+                <Grid>
+                    <Grid.Col span={10}>
+                        <Map cameras={historicalCameras} selectedDate={selectedDate}></Map>
+                    </Grid.Col>
+                    <Grid.Col span={2}>
+                        <IndividualList cameras={historicalCameras} selectedDate={selectedDate}></IndividualList>
+                    </Grid.Col>
+                </Grid>
             </Tabs.Panel>
 
-            <Tabs.Panel value="current" pt="xs">
+            <Tabs.Panel value="current" pt="xs" mx="md">
                 <AccordionList cameras={scrapedCameras}></AccordionList>
             </Tabs.Panel>
 
-            <Tabs.Panel value="historical" pt="xs">
+            <Tabs.Panel value="historical" pt="xs" mx="md">
                 <AccordionList cameras={historicalCameras}></AccordionList>
             </Tabs.Panel>
         </Tabs>

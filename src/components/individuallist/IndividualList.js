@@ -1,3 +1,4 @@
+import { Text } from '@mantine/core';
 import dayjs from 'dayjs';
 
 function IndividualList({ cameras, selectedDate }) {
@@ -6,10 +7,10 @@ function IndividualList({ cameras, selectedDate }) {
 
     return (
         <>
-            <h2>{temp?.date}</h2>
+            <Text weight={700}>{temp?.date}</Text>
             {temp?.cameras?.map(({ location, position }) => {
                 return (
-                    <p key={location}>{location}</p>
+                    <Text key={location}>{location}</Text>
                 );
             })}
         </>

@@ -1,23 +1,20 @@
-import { TextField } from "@mui/material";
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import moment from 'moment';
+import { DatePicker } from '@mantine/dates';
 
 function DateSelector({ selectedDate, setSelectedDate, historicalCameras }) {
+    const dayjs = require('dayjs')
+
     return (
-        <LocalizationProvider dateAdapter={AdapterMoment}>
+        <>
             <DatePicker
-                label="Date"
-                inputFormat="DD/MM/YYYY"
-                minDate={moment(historicalCameras[0]?.date, 'DD/MM/YYYY')}
-                maxDate={moment(historicalCameras[historicalCameras.length - 1]?.date, 'DD/MM/YYYY')}
-                value={selectedDate}
-                onChange={(newValue) => {
-                    setSelectedDate(newValue);
+                value={dayjs(selectedDate).toDate()}
+                onChange={(newDate) => {
+                    setSelectedDate(newDate);
                 }}
-                renderInput={(params) => <TextField {...params} />}
+                inputFormat="DD/MM/YYYY"
+                minDate={dayjs(historicalCameras[0]?.date, 'DD/MM/YYYY').toDate()}
+                maxDate={dayjs(historicalCameras[historicalCameras.length - 1]?.date, 'DD/MM/YYYY').toDate()}
             />
-        </LocalizationProvider>
+        </>
     )
 }
 

@@ -1,15 +1,15 @@
-import { Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import dayjs from 'dayjs';
 
-function IndividualList({ historicalCameras, selectedDate }) {
-    const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
+function IndividualList({ cameras, selectedDate }) {
+
+    const temp = cameras.filter(val => val.date === dayjs(selectedDate).format("DD/MM/YYYY"))[0];
 
     return (
         <>
-            <br></br>
-            <Typography variant="h6">{temp?.date}</Typography>
+            <h2>{temp?.date}</h2>
             {temp?.cameras?.map(({ location, position }) => {
                 return (
-                    <Typography key={location} variant='body2' style={{ fontSize: 14 }}>{location}</Typography>
+                    <p key={location}>{location}</p>
                 );
             })}
         </>

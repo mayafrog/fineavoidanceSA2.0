@@ -1,14 +1,11 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Tab, Unstable_Grid2 as Grid } from "@mui/material";
-import moment from 'moment';
+import { Tabs } from '@mantine/core';
+import { IconCalendar, IconHistory, IconMap } from '@tabler/icons';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from "react";
 import { AccordionList, DateSelector, IndividualList, Map } from '../../components';
 
 function TabContainer() {
-    const [currentTab, setCurrentTab] = useState('1');
-    const handleTab = (event, newTab) => {
-        setCurrentTab(newTab);
-    };
+    dayjs.extend(require('dayjs/plugin/customParseFormat'));
 
     const [scrapedCameras, setScrapedCameras] = useState([]);
     useEffect(() => {
@@ -29,39 +26,30 @@ function TabContainer() {
         });
     }, []);
 
-    const [selectedDate, setSelectedDate] = useState(moment());
+    const [selectedDate, setSelectedDate] = useState(dayjs());
 
     return (
-        <TabContext value={currentTab}>
+        <Tabs defaultValue="map">
+            <Tabs.List>
+                <Tabs.Tab value="map" icon={<IconMap size={14} />}>Map</Tabs.Tab>
+                <Tabs.Tab value="current" icon={<IconCalendar size={14} />}>Current Data</Tabs.Tab>
+                <Tabs.Tab value="historical" icon={<IconHistory size={14} />}>Historical Data</Tabs.Tab>
+            </Tabs.List>
 
-            <Box sx={{ borderBottom: 1, borderColor: 'white' }}>
-                <TabList onChange={handleTab} textColor="inherit" indicatorColor='white'>
-                    <Tab label="Map" value="1" />
-                    <Tab label="Current Data" value="2" />
-                    <Tab label="Historical Data" value="3" />
-                </TabList>
-            </Box>
+            <Tabs.Panel value="map" pt="xs">
+                <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} ></DateSelector>
+                <Map cameras={historicalCameras} selectedDate={selectedDate}></Map>
+                <IndividualList cameras={historicalCameras} selectedDate={selectedDate}></IndividualList>
+            </Tabs.Panel>
 
-            <TabPanel value="1">
-                <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} />
-                <Grid container spacing={2}>
-                    <Grid xs={10}>
-                        <Map selectedDate={selectedDate} historicalCameras={historicalCameras} />
-                    </Grid>
-                    <Grid xs={2}>
-                        <IndividualList selectedDate={selectedDate} historicalCameras={historicalCameras} />
-                    </Grid>
-                </Grid>
-            </TabPanel>
+            <Tabs.Panel value="current" pt="xs">
+                <AccordionList cameras={scrapedCameras}></AccordionList>
+            </Tabs.Panel>
 
-            <TabPanel value="2">
-                <AccordionList cameras={scrapedCameras} setCameras={setScrapedCameras} />
-            </TabPanel>
-
-            <TabPanel value="3">
-                <AccordionList cameras={historicalCameras} setCameras={setHistoricalCameras} />
-            </TabPanel>
-        </TabContext>
+            <Tabs.Panel value="historical" pt="xs">
+                <AccordionList cameras={historicalCameras}></AccordionList>
+            </Tabs.Panel>
+        </Tabs>
     )
 
 }

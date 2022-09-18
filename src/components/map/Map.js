@@ -1,8 +1,8 @@
-import { Box, Unstable_Grid2 as Grid } from '@mui/material';
 import { GoogleMap, InfoWindowF, Marker, useJsApiLoader } from '@react-google-maps/api';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 
-function Map({ historicalCameras, selectedDate }) {
+function Map({ cameras, selectedDate }) {
     const containerStyle = {
         width: '100%',
         height: '76.5vh'
@@ -21,7 +21,7 @@ function Map({ historicalCameras, selectedDate }) {
     const [ref, setRef] = useState(null);
 
     useEffect(() => {
-        const temp = historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0];
+        const temp = cameras.filter(val => val.date === dayjs(selectedDate).format("DD/MM/YYYY"))[0];;
 
         if (ref) {
             const bounds = new window.google.maps.LatLngBounds();
@@ -29,7 +29,7 @@ function Map({ historicalCameras, selectedDate }) {
             ref?.fitBounds(bounds);
         }
 
-    }, [historicalCameras, selectedDate, ref]);
+    }, [cameras, selectedDate, ref]);
 
     const handleOnLoad = (map) => {
         setRef(map);
@@ -43,19 +43,18 @@ function Map({ historicalCameras, selectedDate }) {
     });
 
     if (!isLoaded) {
-        return <Box>Loading...</Box>
+        return <div>Loading...</div>
     };
 
     return (
-        <Box>
-            {/* <Typography style={{ textAlign: "left", fontSize: 18 }}>Today's date: {today}</Typography> */}
+        <>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 options={options}
                 onLoad={handleOnLoad}
                 onClick={() => setActiveMarker(null)}
             >
-                {historicalCameras.filter(val => val.date === selectedDate.format('DD/MM/YYYY'))[0]?.cameras?.map(({ location, position }) => (
+                {cameras.filter(val => val.date === dayjs(selectedDate).format("DD/MM/YYYY"))[0]?.cameras?.map(({ location, position }) => (
                     <Marker
                         key={location}
                         position={position}
@@ -63,13 +62,13 @@ function Map({ historicalCameras, selectedDate }) {
                     >
                         {activeMarker === location ? (
                             <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                <Box style={{ color: "black" }}>{location}</Box>
+                                <div style={{ color: "black" }}>{location}</div>
                             </InfoWindowF>
                         ) : null}
                     </Marker>
                 ))}
             </GoogleMap>
-        </Box>
+        </>
     );
 }
 

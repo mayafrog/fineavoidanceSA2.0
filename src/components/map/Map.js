@@ -1,4 +1,4 @@
-import { useMantineColorScheme } from '@mantine/core';
+import { Text, useMantineColorScheme } from '@mantine/core';
 import { GoogleMap, InfoWindowF, Marker, useJsApiLoader } from '@react-google-maps/api';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
@@ -229,7 +229,7 @@ function Map({ cameras, selectedDate }) {
                     >
                         {activeMarker === location ? (
                             <InfoWindowF onCloseClick={() => setActiveMarker(null)}>
-                                <div style={{ color: "black" }}>{location}</div>
+                                <Text style={{ color: "black" }}>{location}</Text>
                             </InfoWindowF>
                         ) : null}
                     </Marker>

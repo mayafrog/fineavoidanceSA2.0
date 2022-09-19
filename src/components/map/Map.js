@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 function Map({ cameras, selectedDate }) {
     const containerStyle = {
         width: '100%',
-        height: '78vh'
+        height: '82vh'
     };
 
     // const center = {

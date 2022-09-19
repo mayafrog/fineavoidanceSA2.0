@@ -1,6 +1,5 @@
-import { ColorSchemeProvider, MantineProvider } from '@mantine/core';
+import { AppShell, ColorSchemeProvider, MantineProvider } from '@mantine/core';
 import { useState } from 'react';
-import { ColourButton } from './components';
 import { Navbar, TabContainer } from './containers';
 
 export default function App() {
@@ -11,9 +10,10 @@ export default function App() {
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-        <Navbar></Navbar>
-        <ColourButton></ColourButton>
-        <TabContainer></TabContainer>
+        <AppShell>
+          <Navbar></Navbar>
+          <TabContainer></TabContainer>
+        </AppShell>
       </MantineProvider>
     </ColorSchemeProvider>
   );

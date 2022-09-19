@@ -36,7 +36,7 @@ function TabContainer() {
                 <Tabs.Tab value="historical" icon={<IconHistory size={14} />}>Historical Data</Tabs.Tab>
             </Tabs.List>
 
-            <Tabs.Panel value="map" pt="xs" mx="md">
+            <Tabs.Panel value="map">
                 <Grid>
                     <Grid.Col span={2}>
                         <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} ></DateSelector>
@@ -52,11 +52,11 @@ function TabContainer() {
                 </Grid>
             </Tabs.Panel>
 
-            <Tabs.Panel value="current" pt="xs" mx="md">
+            <Tabs.Panel value="current">
                 <AccordionList cameras={scrapedCameras}></AccordionList>
             </Tabs.Panel>
 
-            <Tabs.Panel value="historical" pt="xs" mx="md">
+            <Tabs.Panel value="historical">
                 <AccordionList cameras={historicalCameras}></AccordionList>
             </Tabs.Panel>
         </Tabs>

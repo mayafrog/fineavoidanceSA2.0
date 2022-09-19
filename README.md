@@ -8,13 +8,15 @@ Full-stack work-in-progress remake of the original fineavoidanceSA using contemp
 - Package Manager: Yarn
 
 ### Current features:
-- Google Map with markers of mobile speed cameras for today's date
-- List of freshly scraped  mobile speed cameras currently on the SAPOL website
-- Historical data can be viewed using API
+- Google Map with markers of mobile speed cameras for selected date
+- View list of freshly scraped mobile speed cameras
+- View list of historical data stored in the database 
 
 ### Planned:
-- Historical data and visualisations integrated into the site
-- Alerts if cameras are on a user's predefined route (e.g. daily drive from home to work)
+- Driving mode with alerts
+- Push Notifications if cameras are on a user's predefined route (e.g. daily drive from home to work)
+- Static speed / red light cameras
+- Statistics using historical data (e.g. frequency of different suburbs)
 
 # How to Run
 

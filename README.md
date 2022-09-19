@@ -8,7 +8,7 @@ Full-stack work-in-progress remake of the original fineavoidanceSA using contemp
 - Package Manager: Yarn
 
 ### Current features:
-- Google Map with markers of mobile speed cameras for selected date
+- Google Map with markers of mobile speed cameras for selected date (using historical data stored in the database)
 - View list of freshly scraped mobile speed cameras
 - View list of historical data stored in the database 
 

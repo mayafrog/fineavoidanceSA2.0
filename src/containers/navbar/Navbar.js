@@ -11,7 +11,6 @@ function Navbar() {
                     align="center"
                     size="xl"
                     weight={700}
-                    style={{fontFamily: "Roboto"}}
                 > FineAvoidanceSA2.0
                 </Text>
             </Grid.Col>

@@ -38,8 +38,8 @@ function TabContainer() {
 
             <Tabs.Panel value="map">
                 <Grid>
-                    <Grid.Col span={2}>
-                        <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras} ></DateSelector>
+                    <Grid.Col span={2} pt={"sm"}>
+                        <DateSelector selectedDate={selectedDate} setSelectedDate={setSelectedDate} historicalCameras={historicalCameras}></DateSelector>
                     </Grid.Col>
                 </Grid>
                 <Grid>

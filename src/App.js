@@ -9,7 +9,7 @@ export default function App() {
 
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={{ colorScheme, fontFamily: ["Roboto"] }} withGlobalStyles withNormalizeCSS>
         <AppShell>
           <Navbar></Navbar>
           <TabContainer></TabContainer>

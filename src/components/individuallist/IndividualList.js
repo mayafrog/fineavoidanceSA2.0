@@ -7,10 +7,10 @@ function IndividualList({ cameras, selectedDate }) {
 
     return (
         <>
-            <Text style={{fontFamily: "Roboto"}} weight={700}>{temp?.date}</Text>
+            <Text weight={700}>{temp?.date}</Text>
             {temp?.cameras?.map(({ location, position }) => {
                 return (
-                    <Text style={{fontFamily: "Roboto"}} size="sm" key={location}>{location}</Text>
+                    <Text size="sm" key={location}>{location}</Text>
                 );
             })}
         </>

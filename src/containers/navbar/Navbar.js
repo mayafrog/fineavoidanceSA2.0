@@ -11,7 +11,7 @@ function Navbar() {
                     align="center"
                     size="xl"
                     weight={700}
-                    style={{ fontFamily: 'Greycliff CF, sans-serif' }}
+                    style={{fontFamily: "Roboto"}}
                 > FineAvoidanceSA2.0
                 </Text>
             </Grid.Col>

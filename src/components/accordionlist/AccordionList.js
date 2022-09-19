@@ -12,15 +12,15 @@ function AccordionList({ cameras }) {
                     <Accordion.Item key={camera.date} value={camera.date}>
                         <Accordion.Control>
                             {camera.date === today
-                                ? <Text weight={700}>{camera.date} (TODAY)</Text>
-                                : <Text>{camera.date}</Text>}
+                                ? <Text style={{fontFamily: "Roboto"}} weight={700}>{camera.date} (TODAY)</Text>
+                                : <Text style={{fontFamily: "Roboto"}}>{camera.date}</Text>}
                         </Accordion.Control>
                         <Accordion.Panel>
                             {camera?.cameras?.map((location, index) => {
                                 return (
                                     location.location
-                                        ? <Text key={camera.date + " " + index} >{location.location}</Text>
-                                        : <Text key={camera.date + " " + index} >{location}</Text>
+                                        ? <Text style={{fontFamily: "Roboto"}} size="sm" key={camera.date + " " + index} >{location.location}</Text>
+                                        : <Text style={{fontFamily: "Roboto"}} size="sm" key={camera.date + " " + index} >{location}</Text>
                                 );
                             })}
                         </Accordion.Panel>

@@ -12,11 +12,19 @@ Full-stack work-in-progress remake of the original fineavoidanceSA using contemp
 - View list of freshly scraped mobile speed cameras
 - View list of historical data stored in the database 
 
-### Planned:
+### Planned features:
 - Driving mode with alerts
 - Push Notifications if cameras are on a user's predefined route (e.g. daily drive from home to work)
 - Static speed / red light cameras
-- Statistics using historical data (e.g. frequency of different suburbs)
+- Statistics using historical data (e.g. frequency in different streets / suburbs)
+
+### Possible features:
+- User accounts
+- Give users ability to report cameras that are not listed
+- Give users ability to upvote / downvote a camera (to show it was spotted at listed location, along with time spotted)
+- Webscraping of forums / Facebook groups for the above functionality
+- More statistics using crowdsourced data to show accuracy of listed cameras
+- Analysis of data - potentially using AI / ML, to show trends (e.g. day of the week, month of the year, holidays, special events)
 
 # How to Run
 

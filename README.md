@@ -39,7 +39,7 @@ Open [http://localhost:5000](http://localhost:5000) to view it in your browser
 # Configuration
 Google Maps API key:
 - `/.env`
-- `api/.flaskenv`
+- `/api/.flaskenv`
 
-Firecloud key.json:
-- `/api/`
+Firecloud:
+- `/api/key.json`
